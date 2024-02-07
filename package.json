@@ -1,0 +1,22 @@
+{
+  "name": "abhay_deshpande_002775776_01",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "express": "^4.18.2",
+    "nocache": "^4.0.0",
+    "pg": "^8.11.3",
+    "sequelize": "^6.36.0",
+    "supertest": "^6.3.4"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
