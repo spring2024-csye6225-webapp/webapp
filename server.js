@@ -3,7 +3,6 @@ const nocache = require("nocache");
 const databaseConnection = require("./controllers/databaseHealthController");
 const bcrypt = require("bcrypt");
 const students = require("./models/Students");
-const { where } = require("sequelize");
 let app = express();
 app.use(nocache());
 app.use(express.json());
@@ -142,4 +141,8 @@ let server = app.listen(8080, function () {
   console.log("the app is running on the port 8080");
 });
 
-module.exports = app;
+function startServer() {
+  return server;
+}
+
+module.exports = { app, startServer };

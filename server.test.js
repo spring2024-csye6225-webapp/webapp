@@ -1,5 +1,5 @@
 const request = require("supertest");
-const app = require("./server");
+const { app, startServer } = require("./server");
 
 describe("Server End Point", () => {
   it("should return 405 method not allowed for PUT request", async () => {
@@ -19,5 +19,10 @@ describe("Server End Point", () => {
   it("should return 405 method not allowed for POST request", async () => {
     const response = await request(app).post("/healthz");
     expect(response.status).toBe(405);
+  });
+
+  afterAll(() => {
+    const server = startServer();
+    server.close();
   });
 });
