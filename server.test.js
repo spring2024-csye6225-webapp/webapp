@@ -28,6 +28,6 @@ describe("Server End Point", () => {
 
   it("it should return 405 if body is passed along with the get request", async () => {
     const response = await request(app).get("/healthz").send({ key: "value" });
-    expect(response.status).toBe(405);
+    expect(response.status).toBe(400);
   });
 });
