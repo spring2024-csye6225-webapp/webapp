@@ -54,28 +54,44 @@ app.post("/user", async function (req, res) {
     email,
     password,
   };
-  let userFind = await students.findOne({
-    where: { email: transformedData.email },
-  });
-  if (userFind == null) {
-    let hashedPassword = "";
-    //generating hash password
-    bcrypt.genSalt(10, async (err, salt) => {
-      bcrypt.hash(transformedData.password, salt, async function (err, hash) {
-        hashedPassword = hash;
-        transformedData = { ...transformedData, password: hash };
-        let userRecord = await students.create(transformedData);
-        let userFind = await students.findOne({
-          where: { email: userRecord.dataValues.email },
-          attributes: { exclude: ["password"] },
-        });
-        if (userFind) {
-          res.status(200).send(userFind.dataValues);
-        }
-      });
+  let emailStatus = false;
+  let emailFormat = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+  if (
+    transformedData.email !== "" &&
+    transformedData.email.match(emailFormat)
+  ) {
+    emailStatus = true;
+  }
+  if (emailStatus) {
+    let userFind = await students.findOne({
+      where: { email: transformedData.email },
     });
+    if (userFind == null) {
+      let hashedPassword = "";
+      //generating hash password
+      bcrypt.genSalt(10, async (err, salt) => {
+        bcrypt.hash(transformedData.password, salt, async function (err, hash) {
+          hashedPassword = hash;
+          transformedData = { ...transformedData, password: hash };
+          let userRecord = await students.create(transformedData);
+          let userFind = await students.findOne({
+            where: { email: userRecord.dataValues.email },
+            attributes: { exclude: ["password"] },
+          });
+          if (userFind) {
+            res.status(200).send(userFind.dataValues);
+          }
+        });
+      });
+    } else {
+      res.status(400).send("");
+    }
   } else {
-    res.status(400).send("");
+    res
+      .status(400)
+      .send(
+        "Enter the email address in the correct format like  abc@gmail.com"
+      );
   }
 });
 
