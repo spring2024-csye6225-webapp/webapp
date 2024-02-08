@@ -1,0 +1,23 @@
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+jobs:
+  build-node:
+    runs-on: ubuntu-latest
+    container: node:20
+    steps:
+      - run: node --version
+      - run: npm --version
+      - uses: actions/checkout@v3
+      - run: npm install
+      - run: npm run test
+        continue-on-error: false
+  finish:
+    needs: build-node
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Finish
+        run: echo "Workflow finished"
