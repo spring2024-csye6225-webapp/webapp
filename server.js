@@ -7,14 +7,54 @@ let app = express();
 app.use(nocache());
 app.use(express.json());
 
-app.get("/healthz", function (req, res) {
-  databaseConnection.healthCheck(req, res);
+app.get("/healthz", async function (req, res) {
+  console.log("request params", req.query);
+  console.log("the request body ", req.body);
+  if (Object.keys(req.body).length > 0) {
+    res.sendStatus(405);
+  } else {
+    databaseConnection.healthCheck(req, res);
+  }
 });
 
 app.get("/healthz/:id", function (req, res) {
   if (req.params.id) {
     res.status(400).send("");
   }
+});
+
+app.put("/healthz/:id", function (req, res) {
+  if (req.params.id) {
+    res.status(400).send("");
+  }
+});
+
+app.delete("/healthz/:id", function (req, res) {
+  if (req.params.id) {
+    res.status(400).send("");
+  }
+});
+
+app.patch("/healthz/:id", function (req, res) {
+  if (req.params.id) {
+    res.status(400).send("");
+  }
+});
+
+app.delete("/healthz/:id", function (req, res) {
+  if (req.params.id) {
+    res.status(400).send("");
+  }
+});
+
+app.head("/healthz/:id", function (req, res) {
+  if (req.params.id) {
+    res.status(400).send("");
+  }
+});
+
+app.patch("/healthz", function (req, res) {
+  res.status(405).send("");
 });
 
 app.put("/healthz", function (req, res) {
