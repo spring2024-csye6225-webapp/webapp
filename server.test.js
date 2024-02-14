@@ -1,6 +1,10 @@
 const request = require("supertest");
 const { app, startServer } = require("./server");
 
+before(async () => {
+  sequelize.sync();
+});
+
 describe("Server End Point", () => {
   it("should return 405 method not allowed for PUT request", async () => {
     const response = await request(app).put("/healthz");
@@ -19,10 +23,5 @@ describe("Server End Point", () => {
   it("should return 405 method not allowed for POST request", async () => {
     const response = await request(app).post("/healthz");
     expect(response.status).toBe(405);
-  });
-
-  afterAll(() => {
-    const server = startServer();
-    server.close();
   });
 });
