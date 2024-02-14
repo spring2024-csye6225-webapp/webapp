@@ -24,7 +24,7 @@ app.get("/healthz/:id", function (req, res) {
 });
 
 app.use("/healthz", (req, res, next) => {
-  if (req.method !== "GET") {
+  if (req.method !== "GET" || req.method == "HEAD") {
     return res.status(405).send("Method Not Allowed");
   } else {
     next();
@@ -63,12 +63,14 @@ app.post("/v1/user", async function (req, res) {
         bcrypt.hash(transformedData.password, salt, async function (err, hash) {
           hashedPassword = hash;
           transformedData = { ...transformedData, password: hash };
+          console.log("the trans data", transformedData);
           let userRecord = await students.create(transformedData);
           let userFind = await students.findOne({
             where: { email: userRecord.dataValues.email },
             attributes: { exclude: ["password"] },
           });
           if (userFind) {
+            console.log("created successfully");
             res.status(201).send(userFind.dataValues);
           }
         });
