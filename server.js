@@ -2,7 +2,7 @@ let express = require("express");
 const nocache = require("nocache");
 const databaseConnection = require("./controllers/databaseHealthController");
 const bcrypt = require("bcrypt");
-const students = require("./models/Students");
+const students = require("./models/Users");
 let app = express();
 app.use(nocache());
 app.use(express.json());
@@ -23,65 +23,15 @@ app.get("/healthz/:id", function (req, res) {
   }
 });
 
-app.put("/healthz/:id", function (req, res) {
-  if (req.params.id) {
-    res.status(400).send("");
+app.use("/healthz", (req, res, next) => {
+  if (req.method !== "GET") {
+    return res.status(405).send("Method Not Allowed");
+  } else {
+    next();
   }
 });
 
-app.delete("/healthz/:id", function (req, res) {
-  if (req.params.id) {
-    res.status(400).send("");
-  }
-});
-
-app.patch("/healthz/:id", function (req, res) {
-  if (req.params.id) {
-    res.status(400).send("");
-  }
-});
-
-app.delete("/healthz/:id", function (req, res) {
-  if (req.params.id) {
-    res.status(400).send("");
-  }
-});
-
-app.head("/healthz/:id", function (req, res) {
-  if (req.params.id) {
-    res.status(400).send("");
-  }
-});
-
-app.patch("/healthz", function (req, res) {
-  res.status(405).send("");
-});
-
-app.put("/healthz", function (req, res) {
-  res.status(405).send("");
-});
-
-app.delete("/healthz", function (req, res) {
-  res.status(405).send("");
-});
-
-app.patch("/healthz", function (req, res) {
-  res.status(405).send("");
-});
-
-app.post("/healthz", function (req, res) {
-  res.status(405).send("");
-});
-
-app.head("/healthz", function (req, res) {
-  res.status(405).send("");
-});
-
-app.options("/healthz", function (req, res) {
-  res.status(405).send("");
-});
-
-app.post("/user", async function (req, res) {
+app.post("/v1/user", async function (req, res) {
   let {
     first_name: firstname,
     last_name: lastname,
@@ -119,7 +69,7 @@ app.post("/user", async function (req, res) {
             attributes: { exclude: ["password"] },
           });
           if (userFind) {
-            res.status(200).send(userFind.dataValues);
+            res.status(201).send(userFind.dataValues);
           }
         });
       });
@@ -135,64 +85,101 @@ app.post("/user", async function (req, res) {
   }
 });
 
-app.put("/user/self", async function (req, res) {
-  let {
-    first_name: firstname,
-    last_name: lastname,
-    username: email,
-    password,
-  } = req.body;
-  let transformedData = {
-    firstname,
-    lastname,
-    email,
-    password,
-  };
-
-  if (transformedData.email) {
-    res.status(400).send("");
+app.put("/v1/user/self", async function (req, res) {
+  if (Object.keys(req.body).length == 0) {
+    res.status(204).send("");
   } else {
-    const authHeaders = req.headers.authorization;
-    const userEmail = Buffer.from(authHeaders.split(" ")[1], "base64")
-      .toString("utf-8")
-      .split(":")[0];
+    let {
+      first_name: firstname,
+      last_name: lastname,
+      username: email,
+      password,
+    } = req.body;
+    let transformedData = {
+      firstname,
+      lastname,
+      email,
+      password,
+    };
 
-    let userFind = await students.findOne({
-      where: { email: userEmail },
-      attributes: { exclude: ["password"] },
-    });
-    if (userFind) {
-      bcrypt.genSalt(10, async (err, salt) => {
-        bcrypt.hash(transformedData.password, salt, async function (err, hash) {
-          transformedData.password = hash;
-          const updateRecord = await students.update(transformedData, {
-            where: { email: userEmail },
-          });
-          if (updateRecord) {
-            res.status(200).send("Records updated");
-          }
-        });
+    if (transformedData.email) {
+      res.status(400).send("");
+    } else {
+      const authHeaders = req.headers.authorization;
+      const userEmail = Buffer.from(authHeaders.split(" ")[1], "base64")
+        .toString("utf-8")
+        .split(":")[0];
+      const userPassword = Buffer.from(authHeaders.split(" ")[1], "base64")
+        .toString("utf-8")
+        .split(":")[1];
+      let userFind = await students.findOne({
+        where: { email: userEmail },
       });
+      if (userFind) {
+        //check if the password matches
+        const result = await bcrypt.compare(
+          userPassword,
+          userFind.dataValues.password
+        );
+        if (!result) {
+          res.status(401).send("");
+        } else {
+          bcrypt.genSalt(10, async (err, salt) => {
+            bcrypt.hash(
+              transformedData.password,
+              salt,
+              async function (err, hash) {
+                transformedData.password = hash;
+                const updateRecord = await students.update(transformedData, {
+                  where: { email: userEmail },
+                });
+                if (updateRecord) {
+                  let userFind = await students.findOne({
+                    where: { email: userEmail },
+                    attributes: { exclude: "password" },
+                  });
+                  res.status(200).send(userFind.dataValues);
+                }
+              }
+            );
+          });
+        }
+      } else {
+        res.status(400).send("");
+      }
     }
   }
 });
 
-app.get("/user/self", async function (req, res) {
+app.get("/v1/user/self", async function (req, res) {
   const authHeaders = req.headers.authorization;
   const userEmail = Buffer.from(authHeaders.split(" ")[1], "base64")
     .toString("utf-8")
     .split(":")[0];
-
+  const userPassword = Buffer.from(authHeaders.split(" ")[1], "base64")
+    .toString("utf-8")
+    .split(":")[1];
   let userFind = await students.findOne({
     where: { email: userEmail },
-    attributes: { exclude: ["password"] },
   });
+  console.log("the userfind", userFind);
   if (userFind) {
-    res.status(200).send(userFind.dataValues);
+    const result = await bcrypt.compare(
+      userPassword,
+      userFind.dataValues.password
+    );
+    if (!result) {
+      res.status(400).send("");
+    } else {
+      const newDataValues = Object.assign({}, userFind.dataValues);
+      delete newDataValues.password;
+      res.status(200).send(newDataValues);
+    }
   } else {
     res.status(400).send("");
   }
 });
+
 let server = app.listen(8080, function () {
   console.log("the app is running on the port 8080");
 });

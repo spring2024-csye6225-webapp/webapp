@@ -14,10 +14,27 @@ jobs:
       - run: npm install
       - run: npm run test
         continue-on-error: false
-  finish:
-    needs: build-node
+  setup-sql:
     runs-on: ubuntu-latest
-    if: always()
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: cloudusers
+          POSTGRES_USER: abhaydeshpande
+          POSTGRES_PASSWORD: abhaydeshpande
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
-      - name: Finish
-        run: echo "Workflow finished"
+      - run: psql --version
+      - run: psql -h localhost -U abhaydeshpande -d cloudusers -c "CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY, firstname VARCHAR(255), lastname VARCHAR(255), email VARCHAR(255), password VARCHAR(255))"
+      - run: echo "postgresql setup completed"
+  integration-test:
+    runs-on: ubuntu-latest
+    container: node:20
+    steps:
+      - run: node --version
+      - run: npm --version
+      - uses: actions/checkout@v3
+      - run: npm run serverIntegration.test.js
