@@ -2,21 +2,25 @@
   "name": "abhay_deshpande_002775776_01",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "jest"
+    "test": "mocha __test__/integration.test.js --forceExit"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "assert": "^2.1.0",
     "bcrypt": "^5.1.1",
+    "chai": "^5.1.0",
     "express": "^4.18.2",
+    "mocha": "^10.2.0",
     "nocache": "^4.0.0",
     "pg": "^8.11.3",
     "sequelize": "^6.36.0",
     "supertest": "^6.3.4"
   },
   "devDependencies": {
-    "jest": "^29.7.0"
+    "jest": "^29.7.0",
+    "mocha": "^10.3.0"
   }
 }

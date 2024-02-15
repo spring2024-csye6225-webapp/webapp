@@ -1,8 +1,8 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("./index");
 
-const students = sequelize.define(
-  "students",
+const users = sequelize.define(
+  "users",
   {
     firstname: {
       type: DataTypes.STRING,
@@ -29,4 +29,4 @@ const students = sequelize.define(
   }
 );
 
-module.exports = students;
+module.exports = users;
