@@ -11,14 +11,14 @@ jobs:
         image: postgres:15
         env:
           POSTGRES_DB: cloudusers
-          POSTGRES_USER: abhaydeshpande
-          POSTGRES_PASSWORD: abhaydeshpande
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
         ports:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
       - run: psql --version
-      - run: PGPASSWORD=abhaydeshpande psql -h localhost -U abhaydeshpande -d cloudusers -c "CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY, firstname VARCHAR(255), lastname VARCHAR(255), email VARCHAR(255), password VARCHAR(255))"
+      - run: PGPASSWORD=${{ secrets.POSTGRES_PASSWORD }} psql -h localhost -U ${{ secrets.POSTGRES_PASSWORD }} -d cloudusers -c "CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY, firstname VARCHAR(255), lastname VARCHAR(255), email VARCHAR(255), password VARCHAR(255))"
       - run: echo "postgresql setup completed"
   integration-test:
     runs-on: ubuntu-latest
@@ -29,4 +29,4 @@ jobs:
       - run: npm install --save-dev jest
       - run: npm install mocha
       - run: npm install
-      - run: npm run test
+      - run: npm test
