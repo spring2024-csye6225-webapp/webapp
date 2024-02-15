@@ -1,5 +1,4 @@
 const sequelize = require("../models");
-const students = require("../models/Students");
 let databaseStatus = 503;
 const databaseConnection = async () => {
   try {
