@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "cd src && mocha --exit ./tests/integration-test.js"
+    "test": "cd src && jest --forceExit"
   },
   "author": "",
   "license": "ISC",
