@@ -4,6 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+    "start" :"nodemon server.js",
     "test": "mocha test/integration.test.js --exit"
   },
   "author": "",
