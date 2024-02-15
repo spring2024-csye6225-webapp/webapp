@@ -30,5 +30,6 @@ jobs:
       - run: npm install --save-dev jest
       - run: npm install mocha
       - run: npm install
-      - run: npm run mocha --exit ./tests/integration-test.js
+      - run: npm run test
+      - run: npm test
       - run: echo "completed"
