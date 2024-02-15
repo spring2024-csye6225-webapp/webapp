@@ -4,14 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-<<<<<<< HEAD
     "start" :"nodemon server.js",
-    "test": "mocha test/integration.test.js --exit"
-=======
-    "test": "jest",
-    "test:unit": "jest server.test.js",
-    "test:integration": "jest serverIntegration.test.js"
->>>>>>> d1991f8 (changes to scripts and worflow)
+    "test": "mocha --exit tests/integration-test.mjs"
   },
   "author": "",
   "license": "ISC",
