@@ -6,9 +6,9 @@ on:
 jobs:
   setup-postgresql:
     runs-on: ubuntu-latest
-    # services:
-    #   postgres:
-    #     image: postgres:15
+    services:
+      postgres:
+        image: postgres:15
     #     env:
     #       POSTGRES_DB: cloudusers
     #       POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
