@@ -11,8 +11,8 @@ jobs:
         image: postgres:15
         env:
           POSTGRES_DB: cloudusers
-          POSTGRES_USER: ${ secrets.POSTGRES_USER }
-          POSTGRES_PASSWORD: ${ secrets.POSTGRES_PASSWORD }
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
         ports:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
@@ -33,7 +33,7 @@ jobs:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
-      - run: echo ${ vars.POSTGRES_PASSWORD }
+      - run: echo ${{ secrets.POSTGRES_PASSWORD }}
       - run: node --version
       - run: npm --version
       - run: npm install --save-dev jest
