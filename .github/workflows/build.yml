@@ -29,5 +29,5 @@ jobs:
       - run: npm install --save-dev jest
       - run: npm install --save-dev mocha
       - uses: actions/checkout@v3
-      - run: npm run test:unit
+      - run: npx jest server.test.js
       - run: npm run test:integration
