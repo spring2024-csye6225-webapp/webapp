@@ -2,7 +2,7 @@
   "name": "abhay_deshpande_002775776_01",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "mocha --exit ./tests/integration-test.js"
   },
