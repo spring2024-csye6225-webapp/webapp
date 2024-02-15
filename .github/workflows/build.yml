@@ -40,5 +40,5 @@ jobs:
       - run: npm install mocha --save
       - run: npm install
       - run: pwd
-      - run: npm test
+      - run: npm run test
       - run: echo "completed"
