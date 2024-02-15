@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     container: node:20
     steps:
-      - run: ${{ secrets.POSTGRES_PASSWORD }}
+      - run: echo ${{ secrets.POSTGRES_PASSWORD }}
       - run: node --version
       - run: npm --version
       - run: npm install --save-dev jest
