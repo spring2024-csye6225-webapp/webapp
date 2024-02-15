@@ -1,13 +1,34 @@
 const supertest = require("supertest");
-const { app, startServer } = require("./server");
-const users = require("./models/Users");
+const { app } = require("../server.js");
+const users = require("../models/Users");
 const assert = require("assert");
-const sequelize = require("./models");
+const sequelize = require("../models");
 
 // let server;
 
-before(async () => {
+beforeAll(async () => {
   sequelize.sync();
+});
+
+describe("test healthz api", () => {
+  it("should return 405 method not allowed for PUT request", async () => {
+    const response = await supertest(app).put("/healthz");
+    expect(response.status).toBe(405);
+  });
+
+  it("should return 405 method not allowed for DELETE request", async () => {
+    const response = await supertest(app).delete("/healthz");
+    expect(response.status).toBe(405);
+  });
+
+  it("should return 405 method not allowed for PATCH request", async () => {
+    const response = await supertest(app).patch("/healthz");
+    expect(response.status).toBe(405);
+  });
+  it("should return 405 method not allowed for POST request", async () => {
+    const response = await supertest(app).post("/healthz");
+    expect(response.status).toBe(405);
+  });
 });
 
 describe("USER API", () => {
