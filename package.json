@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "mocha __test__/integration.test.js --forceExit"
+    "start" :"nodemon server.js",
+    "test": "mocha test/integration.test.js --exit"
   },
   "author": "",
   "license": "ISC",
