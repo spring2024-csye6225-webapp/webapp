@@ -18,7 +18,7 @@ jobs:
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
       - run: psql --version
-      - run: psql -h localhost -U abhaydeshpande -d cloudusers -c "CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY, firstname VARCHAR(255), lastname VARCHAR(255), email VARCHAR(255), password VARCHAR(255))"
+      - run: PGPASSWORD=abhaydeshpande psql -h localhost -U abhaydeshpande -d cloudusers -c "CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY, firstname VARCHAR(255), lastname VARCHAR(255), email VARCHAR(255), password VARCHAR(255))"
       - run: echo "postgresql setup completed"
   integration-test:
     runs-on: ubuntu-latest
