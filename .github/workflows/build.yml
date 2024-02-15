@@ -31,5 +31,5 @@ jobs:
       - run: npm install mocha --save
       - run: npm install
       - run: pwd
-      - run: npm run mocha ./__test__/integration.test.js --forceExit
+      - run: npm run mocha --forceExit
       - run: echo "completed"
