@@ -1,9 +1,6 @@
 const request = require("supertest");
 const { app, startServer } = require("./server");
-
-before(async () => {
-  sequelize.sync();
-});
+const sequelize = require("./models");
 
 describe("Server End Point", () => {
   it("should return 405 method not allowed for PUT request", async () => {
