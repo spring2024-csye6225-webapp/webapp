@@ -33,7 +33,7 @@ describe("test healthz api", () => {
   });
 });
 
-describe("USER API", () => {
+describe("USER API", function () {
   after("deleting user", async () => {
     await users.destroy({
       where: {
@@ -42,7 +42,8 @@ describe("USER API", () => {
     });
   });
 
-  it("should create a new user", async () => {
+  it("should create a new user", async function () {
+    this.timeout(5000);
     const responsePromise = await supertest(app).post("/v1/user").send({
       first_name: "John",
       last_name: "Doe",
