@@ -4,16 +4,6 @@ on:
   pull_request:
     branches: ["main"]
 jobs:
-  build-node:
-    runs-on: ubuntu-latest
-    container: node:20
-    steps:
-      - run: node --version
-      - run: npm --version
-      - uses: actions/checkout@v3
-      - run: npm install
-      - run: npm run test
-        continue-on-error: false
   setup-postgresql:
     runs-on: ubuntu-latest
     services:
@@ -37,4 +27,5 @@ jobs:
       - run: node --version
       - run: npm --version
       - uses: actions/checkout@v3
-      - run: npm run serverIntegration.test.js
+      - run: npm run test:unit
+      - run: npm run test:integration
