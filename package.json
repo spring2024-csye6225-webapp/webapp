@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "cd src && jest --forceExit"
+    "test": "cd tests && jest --forceExit"
   },
   "author": "",
   "license": "ISC",
