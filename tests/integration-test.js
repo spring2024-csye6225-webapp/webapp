@@ -1,10 +1,12 @@
-import supertest from "supertest";
-import { app } from "../server.js";
-import users from "../models/Users.js";
-import assert from "assert";
-import sequelize from "../models/index.js";
-import { before } from "mocha";
-import { expect } from "chai";
+const supertest = require("supertest");
+const { app } = require("../server.js");
+const users = require("../models/Users.js");
+const assert = require("assert");
+const sequelize = require("../models/index.js");
+const mocha = require("mocha");
+// const { expect } = require("chai");
+const { before } = mocha;
+
 before(async () => {
   sequelize.sync();
 });
@@ -12,22 +14,22 @@ before(async () => {
 describe("test healthz api", () => {
   it("should return 405 method not allowed for PUT request", async () => {
     const response = await supertest(app).put("/healthz");
-    expect(response.status).to.equal(405);
+    assert.strictEqual(response.status, 405);
   });
 
   it("should return 405 method not allowed for DELETE request", async () => {
     const response = await supertest(app).delete("/healthz");
-    expect(response.status).to.equal(405);
+    assert.strictEqual(response.status, 405);
   });
 
   it("should return 405 method not allowed for PATCH request", async () => {
     const response = await supertest(app).patch("/healthz");
-    expect(response.status).to.equal(405);
+    assert.strictEqual(response.status, 405);
   });
 
   it("should return 405 method not allowed for POST request", async () => {
     const response = await supertest(app).post("/healthz");
-    expect(response.status).to.equal(405);
+    assert.strictEqual(response.status, 405);
   });
 });
 

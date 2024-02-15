@@ -4,8 +4,12 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+<<<<<<< HEAD
     "start" :"nodemon server.js",
     "test": "mocha --exit tests/integration-test.mjs"
+=======
+    "test": "mocha --exit tests/integration-test.js"
+>>>>>>> 04ba4b3 (changes to test cases)
   },
   "author": "",
   "license": "ISC",
