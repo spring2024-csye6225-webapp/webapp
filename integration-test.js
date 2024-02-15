@@ -1,8 +1,8 @@
 const supertest = require("supertest");
-const { app } = require("../server.js");
-const users = require("../models/Users.js");
+const { app } = require("./server.js");
+const users = require("./models/Users.js");
 const assert = require("assert");
-const sequelize = require("../models/index.js");
+const sequelize = require("./models/index.js");
 const mocha = require("mocha");
 // const { expect } = require("chai");
 const { before } = mocha;
