@@ -8,7 +8,7 @@ const mocha = require("mocha");
 const { before } = mocha;
 
 before(async () => {
-  sequelize.sync();
+  await sequelize.sync();
 });
 
 describe("test healthz api", () => {
@@ -41,6 +41,7 @@ describe("USER API", () => {
       },
     });
   });
+
   it("should create a new user", async () => {
     const responsePromise = await supertest(app).post("/v1/user").send({
       first_name: "John",
