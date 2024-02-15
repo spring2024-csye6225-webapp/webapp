@@ -30,4 +30,4 @@ jobs:
       - run: npm install --save-dev mocha
       - run: npm install
       - uses: actions/checkout@v3
-      - run: npm run test
+      - run: ./node_modules/.bin/mocha tests/integration-test.mjs
