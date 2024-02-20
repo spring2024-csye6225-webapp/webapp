@@ -93,7 +93,6 @@ variable "zone" {
 }
 
 
-
 variable "script_path" {
   type    = string
   default = "../scripts/install.sh"
