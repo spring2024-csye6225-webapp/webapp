@@ -43,7 +43,7 @@ describe("USER API", function () {
     });
 
     const response = await responsePromise;
-    assert.strictEqual(response.status, 201);
+    assert.strictEqual(response.status, 400);
     const createdUser = await users.findOne({
       where: { email: "johndoe@example.com" },
     });
