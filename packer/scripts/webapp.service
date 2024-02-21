@@ -1,16 +1,13 @@
 [Unit]
-Description = Nodejs web application 
-
-
+Description=systemd
+After=network.target
 [Service]
-Type= simple 
-User= csye6225
-Group= csye6225
-WorkingDirectory= /pathtomynodejsapplication
-ExecStart= /usr/bin/node server.js
-Restart= always
+Type=simple
+User=csye6225
+Group=csye6225
+WorkingDirectory=/opt/csye6225/webapp-new
+ExecStart=/usr/bin/node /opt/csye6225/webapp-new/server.js
+Restart=on-failure
 RestartSec=10
-
-
 [Install]
 WantedBy=multi-user.target
