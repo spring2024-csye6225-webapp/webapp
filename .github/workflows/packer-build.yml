@@ -15,8 +15,8 @@ jobs:
 
       - name: Set up Packer
         run: |
-          wget https://releases.hashicorp.com/packer/1.8.3/packer_1.8.3_linux_amd64.zip
-          unzip packer_1.8.3_linux_amd64.zip
+          wget https://releases.hashicorp.com/packer/1.7.2/packer_1.7.2_linux_amd64.zip -O packer.zip
+          unzip packer.zip
           chmod +x packer
           sudo mv packer /usr/local/bin/
         shell: bash
