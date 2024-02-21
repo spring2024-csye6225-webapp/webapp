@@ -1,0 +1,31 @@
+name: Packer CI Validation
+
+on: [pull_request]
+
+jobs:
+  packer-ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Zip Web App
+        run: zip -r webapp-new.zip ../webapp-new
+
+      - name: Install Packer
+        run: |
+          wget https://releases.hashicorp.com/packer/1.7.2/packer_1.7.2_linux_amd64.zip
+          unzip packer_1.7.2_linux_amd64.zip
+          chmod +x packer
+          mv packer /usr/local/bin
+        shell: bash
+
+      - name: Run packer init
+        run: packer init packer/centos08.pkr.hcl
+
+      - name: Format Packer Template
+        run: packer fmt -check=true packer/centos08.pkr.hcl
+
+      - name: Validate Packer Template
+        run: packer validate packer/centos08.pkr.hcl

@@ -1,0 +1,45 @@
+name: Packer Build on PR Merge
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  packer_build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Packer
+        run: |
+          wget https://releases.hashicorp.com/packer/1.8.3/packer_1.8.3_linux_amd64.zip
+          unzip packer_1.8.3_linux_amd64.zip
+          chmod +x packer
+          sudo mv packer /usr/local/bin/
+        shell: bash
+
+      - name: Configure GCP Credentials
+        uses: google-github-actions/setup-gcloud@v0
+        with:
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          export_default_credentials: true
+
+      - name: Install Packer
+        run: |
+          wget https://releases.hashicorp.com/packer/1.7.2/packer_1.7.2_linux_amd64.zip
+          unzip packer_1.7.2_linux_amd64.zip
+          chmod +x packer
+          mv packer /usr/local/bin
+        shell: bash
+
+      - name: Run packer init
+        run: packer init packer/templates/centos08.pkr.hcl
+
+      - name: Run Packer Build
+        id: packer_build
+        run: |
+          echo "Running Packer build"
+          packer build -var "project_id=${{ secrets.GCP_PROJECT_ID }}" -var "zone=${{ secrets.GCP_ZONE }}" packer/templates/centos08.pkr.hcl
