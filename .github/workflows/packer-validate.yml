@@ -9,6 +9,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: echo data
+        run: echo ${{ secrets.GCP_SA_KEY }}
       - name: Set up Packer
         uses: hashicorp/setup-packer@main
         id: setup
