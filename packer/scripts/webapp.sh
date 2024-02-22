@@ -54,7 +54,7 @@ sleep 1m
 echo "logging files before changing permissions"
 ls 
 
-mkdir /opt/csye6225
+sudo mkdir /opt/csye6225
 echo "+-------------------------------------------------------------+"
 echo "|                    Setup csye6225 group                     |"
 echo "+-------------------------------------------------------------+"
