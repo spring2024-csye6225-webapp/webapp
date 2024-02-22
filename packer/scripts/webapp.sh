@@ -31,6 +31,31 @@ sudo yum install -y unzip
 
 
 echo "existing files"
+cd /tmp
+
+sleep 1m
+echo "Unzip the zip folder"
+sudo unzip -o webapp-new.zip
+
+
+echo "zipped"
+ls 
+
+echo "Copy webapp-new.zip to user home directory"
+sudo cp -r webapp-new /opt/csye6225
+sudo cp -r webapp.service /opt/csye6225
+cd /opt/csye6225
+
+echo "logging files here"
+ls
+sleep 1m
+
+
+echo "logging files before changing permissions"
+ls 
+
+
+echo "existing files"
 sudo cd /tmp
 
 echo "Unzip the zip folder"
@@ -113,3 +138,4 @@ echo "+-------------------------------------------------------------+"
 sudo systemctl start webapp.service
 sudo systemctl status webapp.service
 sudo systemctl enable webapp.service
+sleep 10m

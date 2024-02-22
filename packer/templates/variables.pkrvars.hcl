@@ -10,7 +10,7 @@ variable "zone" {
 
 variable "service_account_file" {
   type    = string
-  default = "/Users/abhaydeshpande/Downloads/pkey-gcloud/velvety-ground-414100-5d0dae2ed105.json"
+  default = "/Users/abhaydeshpande/Downloads/velvety-ground-414100-1be4614f759d.json"
 }
 
 variable "script_path" {
