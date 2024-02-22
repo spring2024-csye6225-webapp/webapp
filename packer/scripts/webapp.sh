@@ -34,7 +34,6 @@ sleep 1m
 
 echo "Unzipping completed"
 ls
-<<<<<<< HEAD
 echo "Copy webapp-new.zip to user home directory"
 sudo cp -r /tmp/webapp-new /opt/csye6225
 sudo cp -r /tmp/webapp-new/packer/scripts/webapp.service /etc/systemd/system/webapp.service
@@ -43,13 +42,6 @@ pwd
 
 echo "listing current directory items"
 ls
-=======
-sleep 1m
-
-
-echo "logging files before changing permissions"
-ls 
->>>>>>> 2d57dd7 (changes to dir)
 
 echo "+-------------------------------------------------------------+"
 echo "|                    Setup csye6225 group                     |"
