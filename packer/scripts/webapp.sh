@@ -27,25 +27,8 @@ echo "|                    UNZIP WEBAPP                             |"
 echo "+-------------------------------------------------------------+"
 sudo yum install -y unzip
 
-echo "Unzipping the zip folder"
-sudo unzip -o /tmp/webapp-new.zip -d /tmp/
-
-sleep 1m
-
-echo "Unzipping completed"
-
-echo "logging before copy"
-pwd
-echo "listing contents"
-ls
-echo "Copy webapp-new.zip to user home directory"
-sudo cp -r /tmp/webapp-new /opt/csye6225
-sudo cp -r /tmp/webapp-new/packer/scripts/webapp.service /etc/systemd/system/webapp.service
-echo "printing current directory"
-pwd
-
-echo "listing current directory items"
-ls
+echo "Unzip the zip folder"
+sudo unzip -o /tmp/webapp-new.zip -d /opt/csye6225
 
 echo "+-------------------------------------------------------------+"
 echo "|                    Setup csye6225 group                     |"
@@ -54,22 +37,22 @@ sudo groupadd csye6225
 sudo useradd -s /usr/sbin/nologin -g csye6225 -d /opt/csye6225 -m csye6225
 
 echo "+-------------------------------------------------------------+"
-echo "|                    Setup new user permissions               |"
+echo "|                    Changing Permissions                     |"
 echo "+-------------------------------------------------------------+"
-echo "Change permissions of webapp-new"
-sudo chown -R csye6225:csye6225 /opt/csye6225/
-sudo chmod -R 777 /opt/csye6225/
+sudo chmod -R 777 /opt/csye6225
 
-echo " guess which directory I am in"
-ls
+echo "+-------------------------------------------------------------+"
+echo "|                    Install Node Modules                     |"
+echo "+-------------------------------------------------------------+"
+echo "Change directory to /opt/csye6225/webapp-new to install node modules"
+cd /opt/csye6225/webapp-new
+sudo npm install
 
-cd /opt/csye6225
-
-echo "current directory before npm install"
-pwd
-
-npm install
-
+echo "+-------------------------------------------------------------+"
+echo "|                    Setup webapp.service                     |"
+echo "+-------------------------------------------------------------+"
+echo "Copy webapp.service to /etc/systemd/system"
+sudo cp /opt/csye6225/webapp-new/packer/scripts/webapp.service /etc/systemd/system/webapp.service
 
 echo "+-------------------------------------------------------------+"
 echo "|                    Setup Systemd                            |"
