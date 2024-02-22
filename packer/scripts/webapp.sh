@@ -31,21 +31,26 @@ sudo yum install -y unzip
 
 
 echo "existing files"
-sudo cd /tmp
+ cd /tmp
+
+echo "logging the moved files to vm"
+
+ls
 
 echo "Unzip the zip folder"
-sudo unzip -o webapp-new.zip
+sudo unzip -o /tmp/webapp-new.zip
 
 
 echo "zipped"
 ls 
 sleep 1m
 echo "Copy webapp-new.zip to user home directory"
-sudo cp -r webapp-new /opt/csye6225
-sudo cp -r webapp.service /opt/csye6225
-sudo cd /opt/csye6225
+sudo cp -r ./webapp-new /opt/csye6225
+sudo cp -r ./webapp-new/packer/webapp.service /opt/csye6225
 
 echo "logging files here"
+sudo cd /opt/csye6225
+
 ls
 
 
@@ -113,3 +118,4 @@ echo "+-------------------------------------------------------------+"
 sudo systemctl start webapp.service
 sudo systemctl status webapp.service
 sudo systemctl enable webapp.service
+sleep 30m
