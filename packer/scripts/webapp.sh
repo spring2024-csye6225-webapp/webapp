@@ -33,7 +33,10 @@ sudo unzip -o /tmp/webapp-new.zip -d /tmp/
 sleep 1m
 
 echo "Unzipping completed"
-ls
+
+echo "logging before copy"
+pwd
+
 echo "Copy webapp-new.zip to user home directory"
 sudo cp -r /tmp/webapp-new /opt/csye6225
 sudo cp -r /tmp/webapp-new/packer/scripts/webapp.service /etc/systemd/system/webapp.service
