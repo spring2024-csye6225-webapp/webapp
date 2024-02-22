@@ -13,6 +13,9 @@ jobs:
         uses: hashicorp/setup-packer@main
         id: setup
 
+      - name: zip folder
+        run: zip -r webapp.zip .
+
       - name: Run packer init
         run: packer init packer/templates/centos08.pkr.hcl
 
