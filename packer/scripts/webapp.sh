@@ -32,9 +32,14 @@ EOF
 # sudo postgresql-setup initdb
 sudo systemctl enable postgresql
 sudo systemctl start postgresql
-# sudo -u postgres psql -U postgres -c "CREATE USER abhaydeshpande WITH PASSWORD 'abhaydeshpande';"
-# sudo -u postgres psql -U postgres -c "CREATE DATABASE cloudusers;"
-# sudo -u postgres psql -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE cloudusers to abhaydeshpande;"
+sudo -u postgres psql -U postgres -c "CREATE USER abhaydeshpande WITH PASSWORD 'abhaydeshpande';"
+sudo -u postgres psql -U postgres -c "CREATE DATABASE cloudusers;"
+sudo -u postgres psql -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE cloudusers to abhaydeshpande;"
+
+
+sudo sed -i 's/host    all             all             127.0.0.1\/32            ident/host    all             all             127.0.0.1\/32            password/g' /var/lib/pgsql/data/pg_hba.conf
+
+sudo sed -i 's/host    all             all             ::1\/128                 ident/host    all             all             ::1\/128                 password/g' /var/lib/pgsql/data/pg_hba.conf
 
 echo "Node.js and npm Installation"
 curl -fsSL https://rpm.nodesource.com/setup_16.x | sudo bash -
@@ -57,6 +62,7 @@ sudo mv /tmp/webapp-new.zip /opt/csye6225/
 cd /opt/csye6225/ || exit
 sudo unzip webapp-new.zip
 sudo rm webapp-new.zip
+
 # Create new group and user if they don't exist
 sudo groupadd -f csye6225
 sudo useradd -s /usr/sbin/nologin -g csye6225 -d /opt/csye6225 -m csye6225
