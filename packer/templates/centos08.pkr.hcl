@@ -8,16 +8,16 @@ packer {
 }
 
 source "googlecompute" "example" {
-  project_id = var.project_id
-  source_image_family = "centos-stream-8"
-  zone = "us-central1-a"
-  disk_size = "20"
-  disk_type =  "pd-standard"
-  image_name = "custom-image-{{timestamp}}"
-  image_description = "Custom Image using CentOS as source image"
-  image_family = "app-custom-image"
+  project_id              = var.project_id
+  source_image_family     = "centos-stream-8"
+  zone                    = "us-central1-a"
+  disk_size               = "20"
+  disk_type               = "pd-standard"
+  image_name              = "custom-image-{{timestamp}}"
+  image_description       = "Custom Image using CentOS as source image"
+  image_family            = "app-custom-image"
   image_storage_locations = ["us"]
-  ssh_username = "packer"
+  ssh_username            = "packer"
 }
 
 build {
@@ -60,14 +60,14 @@ build {
     source      = "/Users/abhaydeshpande/Desktop/cloud-assignments-spring/webapp-new/packer/scripts/webapp.service"
     destination = "/tmp/webapp.service"
   }
-  
 
-   
+
+
   provisioner "shell" {
-  scripts = [
-    "/Users/abhaydeshpande/Desktop/cloud-assignments-spring/webapp-new/packer/scripts/webapp.sh",
-  ]
-}
+    scripts = [
+      "/Users/abhaydeshpande/Desktop/cloud-assignments-spring/webapp-new/packer/scripts/webapp.sh",
+    ]
+  }
 
   // provisioner "shell" {
   //   script = "../scripts/_nodejs.sh"
