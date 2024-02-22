@@ -39,7 +39,6 @@ sudo useradd -s /usr/sbin/nologin -g csye6225 -d /opt/csye6225 -m csye6225
 echo "+-------------------------------------------------------------+"
 echo "|                    Changing Permissions                     |"
 echo "+-------------------------------------------------------------+"
-sudo chmod -R 777 /opt/csye6225
 
 echo "+-------------------------------------------------------------+"
 echo "|                    Install Node Modules                     |"
