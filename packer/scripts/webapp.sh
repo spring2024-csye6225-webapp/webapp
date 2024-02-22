@@ -94,4 +94,9 @@ sudo yum install -y rsyslog
 sudo systemctl daemon-reload
 
 
+echo "+-------------------------------------------------------------+"
+echo "|                    Setup webapp.service                     |"
+echo "+-------------------------------------------------------------+"
+echo "Copy webapp.service to /etc/systemd/system"
+sudo cp /opt/csye6225/webapp-new/packer/scripts/webapp.service /etc/systemd/system/webapp.service
 
