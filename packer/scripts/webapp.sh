@@ -31,7 +31,7 @@ sudo yum install -y unzip
 
 
 echo "existing files"
-cd /tmp
+sudo cd /tmp
 
 echo "Unzip the zip folder"
 sudo unzip -o webapp-new.zip
@@ -39,11 +39,11 @@ sudo unzip -o webapp-new.zip
 
 echo "zipped"
 ls 
-
+sleep 1m
 echo "Copy webapp-new.zip to user home directory"
 sudo cp -r webapp-new /opt/csye6225
 sudo cp -r webapp.service /opt/csye6225
-cd /opt/csye6225
+sudo cd /opt/csye6225
 
 echo "logging files here"
 ls
@@ -52,7 +52,6 @@ ls
 echo "logging files before changing permissions"
 ls 
 
-sudo mkdir /opt/csye6225
 echo "+-------------------------------------------------------------+"
 echo "|                    Setup csye6225 group                     |"
 echo "+-------------------------------------------------------------+"
