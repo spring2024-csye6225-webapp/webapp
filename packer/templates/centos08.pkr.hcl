@@ -52,7 +52,7 @@ build {
   // }
 
   provisioner "file" {
-    source      = "webapp.zip"
+    source      = "webapp-new.zip"
     destination = "/tmp/webapp-new.zip"
   }
 
