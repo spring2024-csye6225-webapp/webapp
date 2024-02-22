@@ -65,7 +65,7 @@ build {
 
   provisioner "shell" {
     scripts = [
-      "/Users/abhaydeshpande/Desktop/cloud-assignments-spring/webapp-new/packer/scripts/webapp.sh",
+      "packer/scripts/webapp.sh",
     ]
   }
 
