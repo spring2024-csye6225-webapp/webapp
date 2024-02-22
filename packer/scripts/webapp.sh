@@ -54,29 +54,6 @@ sleep 1m
 echo "logging files before changing permissions"
 ls 
 
-
-echo "existing files"
-sudo cd /tmp
-
-echo "Unzip the zip folder"
-sudo unzip -o webapp-new.zip
-
-
-echo "zipped"
-ls 
-sleep 1m
-echo "Copy webapp-new.zip to user home directory"
-sudo cp -r webapp-new /opt/csye6225
-sudo cp -r webapp.service /opt/csye6225
-sudo cd /opt/csye6225
-
-echo "logging files here"
-ls
-
-
-echo "logging files before changing permissions"
-ls 
-
 echo "+-------------------------------------------------------------+"
 echo "|                    Setup csye6225 group                     |"
 echo "+-------------------------------------------------------------+"
@@ -138,4 +115,4 @@ echo "+-------------------------------------------------------------+"
 sudo systemctl start webapp.service
 sudo systemctl status webapp.service
 sudo systemctl enable webapp.service
-sleep 10m
+sleep 
