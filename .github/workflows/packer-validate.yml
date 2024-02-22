@@ -10,12 +10,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Set up Packer
-        run: |
-          wget https://releases.hashicorp.com/packer/1.7.2/packer_1.7.2_linux_amd64.zip -O packer.zip
-          unzip -o packer_1.7.2_linux_amd64.zip
-          chmod +x packer
-          sudo mv packer /usr/local/bin/
-        shell: bash
+        uses: hashicorp/setup-packer@main
+        id: setup
 
       - name: Run packer init
         run: packer init packer/centos08.pkr.hcl
