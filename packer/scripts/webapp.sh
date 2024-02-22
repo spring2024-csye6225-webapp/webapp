@@ -24,7 +24,7 @@ ls -la /tmp
 sudo yum install unzip -y
 
 
-cd /tmp && unzip webapp.zip
+cd /tmp && unzip webapp-new.zip
 
 sleep 30
 cd /tmp/webapp-new && npm install
