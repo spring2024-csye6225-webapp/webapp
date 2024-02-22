@@ -14,21 +14,27 @@ sudo sed -i 's/host    all             all             127.0.0.1\/32            
 
 sudo sed -i 's/host    all             all             ::1\/128                 ident/host    all             all             ::1\/128                 password/g' /var/lib/pgsql/data/pg_hba.conf
 
-echo "Node.js and npm Installation"
-curl -fsSL https://rpm.nodesource.com/setup_16.x | sudo bash -
+sudo yum install -y gcc-c++ make
+curl -sL https://rpm.nodesource.com/setup_16.x | sudo -E bash -
 sudo yum install -y nodejs
-
-echo "Node.js and npm Versions"
 node -v
-npm -v
 
-echo "+-------------------------------------------------------------+"
-echo "|                    UNZIP WEBAPP                             |"
-echo "+-------------------------------------------------------------+"
-sudo yum install -y unzip
+sleep 30
+ls -la /tmp
+sudo yum install unzip -y
 
-echo "Unzip the zip folder"
-sudo unzip -o /tmp/webapp-new.zip -d /opt/csye6225
+
+cd /tmp && unzip webapp.zip
+
+sleep 30
+cd /tmp/webapp-new && npm install
+npm run build
+
+
+sudo mkdir /opt/csye6225/
+
+sudo mv /tmp/webapp-new/packer/scripts/webapp.service /etc/systemd/system/webapp.service
+sudo mv /tmp/webapp-new /opt/csye6225
 
 echo "+-------------------------------------------------------------+"
 echo "|                    Setup csye6225 group                     |"
@@ -40,22 +46,9 @@ echo "+-------------------------------------------------------------+"
 echo "|                    Changing Permissions                     |"
 echo "+-------------------------------------------------------------+"
 
-echo "+-------------------------------------------------------------+"
-echo "|                    Install Node Modules                     |"
-echo "+-------------------------------------------------------------+"
-echo "Change directory to /opt/csye6225/webapp-new to install node modules"
-cd /opt/csye6225/webapp-new
-sudo npm install
 
-echo "+-------------------------------------------------------------+"
-echo "|                    Setup webapp.service                     |"
-echo "+-------------------------------------------------------------+"
-echo "Copy webapp.service to /etc/systemd/system"
-sudo cp /opt/csye6225/webapp-new/packer/scripts/webapp.service /etc/systemd/system/webapp.service
 
-echo "+-------------------------------------------------------------+"
-echo "|                    Setup Systemd                            |"
-echo "+-------------------------------------------------------------+"
 sudo systemctl start webapp.service
 sudo systemctl status webapp.service
 sudo systemctl enable webapp.service
+sleep 30m
