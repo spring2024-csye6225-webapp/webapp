@@ -42,14 +42,15 @@ sudo unzip -o /tmp/webapp-new.zip
 
 
 echo "zipped"
+echo "current directory"
+pwd
 ls 
-sleep 1m
 echo "Copy webapp-new.zip to user home directory"
-sudo cp -r ./webapp-new /opt/csye6225
-sudo cp -r ./webapp-new/packer/webapp.service /opt/csye6225
+sudo cp -r webapp-new /opt/csye6225
+sudo cp -r webapp-new/packer/scripts/webapp.service /opt/csye6225
 
 echo "logging files here"
-sudo cd /opt/csye6225
+cd /opt/csye6225
 
 ls
 
