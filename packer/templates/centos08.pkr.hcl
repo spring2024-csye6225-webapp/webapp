@@ -53,12 +53,12 @@ build {
 
   provisioner "file" {
     source      = "/Users/abhaydeshpande/Desktop/cloud-assignments-spring/webapp-new.zip"
-    destination = "~/webapp-new.zip"
+    destination = "/tmp/webapp-new.zip"
   }
 
   provisioner "file" {
     source      = "/Users/abhaydeshpande/Desktop/cloud-assignments-spring/webapp-new/packer/scripts/webapp.service"
-    destination = "~/webapp.service"
+    destination = "/tmp/webapp.service"
   }
   
 
