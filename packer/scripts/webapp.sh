@@ -6,10 +6,14 @@ sudo yum install -y postgresql-server
 sudo postgresql-setup initdb
 sudo systemctl enable postgresql
 sudo systemctl start postgresql
-sudo -u postgres psql -c "CREATE USER abhaydeshpande WITH PASSWORD 'abhaydeshpande';"
-sudo -u postgres psql -c "CREATE DATABASE cloudusers;"
-sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE cloudusers to abhaydeshpande;"
+sudo -u postgres psql -U postgres -c "CREATE USER abhaydeshpande WITH PASSWORD 'abhaydeshpande';"
+sudo -u postgres psql -U postgres -c "CREATE DATABASE cloudusers;"
+sudo -u postgres psql -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE cloudusers to abhaydeshpande;"
 
+
+sudo sed -i 's/host    all             all             127.0.0.1\/32            ident/host    all             all             127.0.0.1\/32            password/g' /var/lib/pgsql/data/pg_hba.conf
+
+sudo sed -i 's/host    all             all             ::1\/128                 ident/host    all             all             ::1\/128                 password/g' /var/lib/pgsql/data/pg_hba.conf
 
 echo "Node.js and npm Installation"
 curl -fsSL https://rpm.nodesource.com/setup_16.x | sudo bash -
@@ -20,6 +24,35 @@ node -v
 npm -v
 
 
+echo "+-------------------------------------------------------------+"
+echo "|                    UNZIP WEBAPP                             |"
+echo "+-------------------------------------------------------------+"
+sudo yum install -y unzip
+
+
+echo "existing files"
+cd /tmp
+
+sleep 1m
+echo "Unzip the zip folder"
+sudo unzip -o webapp-new.zip
+
+
+echo "zipped"
+ls 
+
+echo "Copy webapp-new.zip to user home directory"
+sudo cp -r webapp-new /opt/csye6225
+sudo cp -r webapp.service /opt/csye6225
+cd /opt/csye6225
+
+echo "logging files here"
+ls
+sleep 1m
+
+
+echo "logging files before changing permissions"
+ls 
 
 
 echo "+-------------------------------------------------------------+"
@@ -28,33 +61,23 @@ echo "+-------------------------------------------------------------+"
 sudo groupadd csye6225
 sudo useradd -s /usr/sbin/nologin -g csye6225 -d /opt/csye6225 -m csye6225
 
-echo "+-------------------------------------------------------------+"
-echo "|                    UNZIP WEBAPP                             |"
-echo "+-------------------------------------------------------------+"
-sudo yum install -y unzip
+echo "after changing permissions"
 
-echo "Check webapp-new in the home directory"
+ls
+
+echo "Check webapp-new in the  directory"
 ls
 ls -ld /opt/csye6225
-sudo chmod -R 770 /opt/csye6225
-
-echo "Copy webapp-new.zip to user home directory"
-sudo cp -r webapp-new.zip webapp.service /opt/csye6225
-cd /opt/csye6225
+sudo chmod -R 777 /opt/csye6225
 
 
-ls
-echo "Unzip in /opt/csye6225"
-sudo unzip -o webapp-new.zip
-
-echo "Check if the file exists"
+echo "Check if the webapp-new exists"
 ls 
 
 echo "+-------------------------------------------------------------+"
 echo "|                    Install Node Modules                     |"
 echo "+-------------------------------------------------------------+"
-echo "Change directory to webapp-new to install node modules"
-cd webapp-new
+echo "install node modules"
 sudo npm install
 
 echo "+-------------------------------------------------------------+"
@@ -68,14 +91,7 @@ echo "copy"
 echo "node location"
 which node
 
-sudo cp ../webapp.service /lib/systemd/system
-
-echo "logging systemd"
-cd  /lib/systemd/system
-ls 
-
-echo "moving back" 
- cd /opt/csye6225/webapp-new
+sudo cp webapp.service /lib/systemd/system
 
 echo "+-------------------------------------------------------------+"
 echo "|                    Setup new user permissions               |"
@@ -86,8 +102,8 @@ echo "Display permissions of user directory"
 ls -la /opt/csye6225
 
 echo "Change permissions of webapp-new"
-sudo chown -R csye6225:csye6225 /opt/csye6225/webapp-new
-sudo chmod -R 770 /opt/csye6225/webapp-new
+sudo chown -R csye6225:csye6225 /opt/csye6225/
+sudo chmod -R 777 /opt/csye6225/
 
 echo "Display permissions of user directory after changes"
 ls -la /opt/csye6225
@@ -100,3 +116,4 @@ echo "+-------------------------------------------------------------+"
 sudo systemctl start webapp.service
 sudo systemctl status webapp.service
 sudo systemctl enable webapp.service
+sleep 10m
