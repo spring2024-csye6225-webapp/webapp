@@ -2,6 +2,7 @@
 
 echo "sudo yum update -y"
 
+# Install PostgreSQL and set it up
 sudo yum install -y postgresql-server
 sudo postgresql-setup initdb
 sudo systemctl enable postgresql
@@ -10,30 +11,36 @@ sudo -u postgres psql -U postgres -c "CREATE USER abhaydeshpande WITH PASSWORD '
 sudo -u postgres psql -U postgres -c "CREATE DATABASE cloudusers;"
 sudo -u postgres psql -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE cloudusers to abhaydeshpande;"
 
+# Update PostgreSQL configuration to use password authentication
 sudo sed -i 's/host    all             all             127.0.0.1\/32            ident/host    all             all             127.0.0.1\/32            password/g' /var/lib/pgsql/data/pg_hba.conf
-
 sudo sed -i 's/host    all             all             ::1\/128                 ident/host    all             all             ::1\/128                 password/g' /var/lib/pgsql/data/pg_hba.conf
 
+# Install Node.js
 sudo yum install -y gcc-c++ make
 curl -sL https://rpm.nodesource.com/setup_16.x | sudo -E bash -
 sudo yum install -y nodejs
 node -v
 
+# Check the contents of /tmp
 ls -la /tmp
 sudo yum install unzip -y
 
+# Extract the zip file
+cd /tmp && unzip -q webapp-new.zip
+if [ $? -ne 0 ]; then
+    echo "Error: Failed to unzip webapp-new.zip"
+    exit 1
+fi
 
-cd /tmp && unzip webapp-new.zip
-
+# Change directory and install dependencies
 cd /tmp/webapp-new && npm install
-npm run build
 
-
-sudo mkdir /opt/csye6225/
-
+# Move files to desired locations
+sudo mkdir -p /opt/csye6225/
 sudo mv /tmp/webapp-new/packer/scripts/webapp.service /etc/systemd/system/webapp.service
 sudo mv /tmp/webapp-new /opt/csye6225
 
+# Set up user and permissions
 echo "+-------------------------------------------------------------+"
 echo "|                    Setup csye6225 group                     |"
 echo "+-------------------------------------------------------------+"
@@ -44,8 +51,7 @@ echo "+-------------------------------------------------------------+"
 echo "|                    Changing Permissions                     |"
 echo "+-------------------------------------------------------------+"
 
-
-
+# Start and enable the webapp service
 sudo systemctl start webapp.service
 sudo systemctl status webapp.service
 sudo systemctl enable webapp.service
