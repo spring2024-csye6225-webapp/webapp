@@ -32,7 +32,10 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-# Change directory and install dependencies
+# Move the extracted contents to a new folder named webapp-new
+sudo mv /tmp/* /tmp/webapp-new
+
+# Change directory to the newly created folder
 cd /tmp/webapp-new && npm install
 
 # Move files to desired locations
