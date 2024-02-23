@@ -34,14 +34,14 @@ fi
 
 # Move the extracted contents to a new folder named webapp-new
 cd /tmp
-sudo mkdir -p /opt/csye6225/
-sudo mv /tmp/* /opt/csye6225/
+sudo mkdir /opt/csye6225/webapp-new
+sudo mv /tmp/* /opt/csye6225/webapp-new
 
 # Change directory to the newly created folder
-cd /opt/csye6225/ && npm install
+sudo cd /opt/csye6225/webapp-new && sudo npm install
 
 # Move files to desired locations
-sudo mv /opt/csye6225/packer/scripts/webapp.service /etc/systemd/system/webapp.service
+sudo mv webapp.service /etc/systemd/system/webapp.service
 
 # Set up user and permissions
 echo "+-------------------------------------------------------------+"
