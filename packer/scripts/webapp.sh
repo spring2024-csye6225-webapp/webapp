@@ -33,15 +33,15 @@ if [ $? -ne 0 ]; then
 fi
 
 # Move the extracted contents to a new folder named webapp-new
-sudo mv /tmp/* /tmp/webapp-new
+cd /tmp
+sudo mkdir -p /opt/csye6225/
+sudo mv /tmp/* /opt/csye6225/
 
 # Change directory to the newly created folder
-cd /tmp/webapp-new && npm install
+cd /opt/csye6225/ && npm install
 
 # Move files to desired locations
-sudo mkdir -p /opt/csye6225/
-sudo mv /tmp/webapp-new/packer/scripts/webapp.service /etc/systemd/system/webapp.service
-sudo mv /tmp/webapp-new /opt/csye6225
+sudo mv /opt/csye6225/packer/scripts/webapp.service /etc/systemd/system/webapp.service
 
 # Set up user and permissions
 echo "+-------------------------------------------------------------+"
