@@ -19,14 +19,12 @@ curl -sL https://rpm.nodesource.com/setup_16.x | sudo -E bash -
 sudo yum install -y nodejs
 node -v
 
-sleep 30
 ls -la /tmp
 sudo yum install unzip -y
 
 
 cd /tmp && unzip webapp-new.zip
 
-sleep 30
 cd /tmp/webapp-new && npm install
 npm run build
 
@@ -51,4 +49,3 @@ echo "+-------------------------------------------------------------+"
 sudo systemctl start webapp.service
 sudo systemctl status webapp.service
 sudo systemctl enable webapp.service
-sleep 30m
