@@ -14,10 +14,13 @@ sudo sed -i 's/host    all             all             127.0.0.1\/32            
 
 sudo sed -i 's/host    all             all             ::1\/128                 ident/host    all             all             ::1\/128                 password/g' /var/lib/pgsql/data/pg_hba.conf
 
-sudo yum install -y gcc-c++ make
-curl -sL https://rpm.nodesource.com/setup_16.x | sudo -E bash -
+echo "Node.js and npm Installation"
+curl -fsSL https://rpm.nodesource.com/setup_16.x | sudo bash -
 sudo yum install -y nodejs
+
+echo "Node.js and npm Versions"
 node -v
+npm -v
 
 
 # Install unzip
@@ -91,9 +94,4 @@ sudo yum install -y rsyslog
 sudo systemctl daemon-reload
 
 
-echo "+-------------------------------------------------------------+"
-echo "|                    Setup webapp.service                     |"
-echo "+-------------------------------------------------------------+"
-echo "Copy webapp.service to /etc/systemd/system"
-sudo cp /opt/csye6225/webapp-new/packer/scripts/webapp.service /etc/systemd/system/webapp.service
 
