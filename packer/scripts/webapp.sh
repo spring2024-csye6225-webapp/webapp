@@ -35,7 +35,7 @@ fi
 # Move the extracted contents to a new folder named webapp-new
 cd /tmp
 sudo mkdir /opt/csye6225/webapp-new
-sudo mv /tmp/* /opt/csye6225/webapp-new
+sudo mv /tmp/* /opt/csye6225/webapp-new/
 
 # Change directory to the newly created folder
 sudo cd /opt/csye6225/webapp-new && sudo npm install
