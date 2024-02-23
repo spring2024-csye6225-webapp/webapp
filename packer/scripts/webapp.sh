@@ -1,6 +1,7 @@
 #!/bin/bash
 echo "sudo yum update -y"
 
+# Install PostgreSQL and set it up
 sudo yum install -y postgresql-server
 sudo postgresql-setup initdb
 sudo systemctl enable postgresql
@@ -9,9 +10,7 @@ sudo -u postgres psql -U postgres -c "CREATE USER abhaydeshpande WITH PASSWORD '
 sudo -u postgres psql -U postgres -c "CREATE DATABASE cloudusers;"
 sudo -u postgres psql -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE cloudusers to abhaydeshpande;"
 
-
 sudo sed -i 's/host    all             all             127.0.0.1\/32            ident/host    all             all             127.0.0.1\/32            password/g' /var/lib/pgsql/data/pg_hba.conf
-
 sudo sed -i 's/host    all             all             ::1\/128                 ident/host    all             all             ::1\/128                 password/g' /var/lib/pgsql/data/pg_hba.conf
 
 echo "Node.js and npm Installation"
@@ -22,6 +21,12 @@ echo "Node.js and npm Versions"
 node -v
 npm -v
 
+# Extract the zip file
+cd /tmp && unzip -q webapp-new.zip
+if [ $? -ne 0 ]; then
+    echo "Error: Failed to unzip webapp-new.zip"
+    exit 1
+fi
 
 # Install unzip
 sudo yum install -y unzip
