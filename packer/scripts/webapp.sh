@@ -26,22 +26,18 @@ ls -la /tmp
 sudo yum install unzip -y
 
 # Extract the zip file
-cd /tmp && unzip -q webapp-new.zip
+sudo mkdir -p /opt/csye6225/webapp-new
+sudo unzip -q /tmp/webapp-new.zip -d /opt/csye6225/webapp-new/
 if [ $? -ne 0 ]; then
     echo "Error: Failed to unzip webapp-new.zip"
     exit 1
 fi
 
-# Move the extracted contents to a new folder named webapp-new
-cd /tmp
-sudo mkdir /opt/csye6225/webapp-new
-sudo mv /tmp/* /opt/csye6225/webapp-new/
+# Change directory to the newly created folder and install dependencies
+cd /opt/csye6225/webapp-new/webapp-new && sudo npm install
 
-# Change directory to the newly created folder
-sudo cd /opt/csye6225/webapp-new && sudo npm install
-
-# Move files to desired locations
-sudo mv webapp.service /etc/systemd/system/webapp.service
+# Move the webapp.service file to systemd directory
+sudo mv /opt/csye6225/webapp-new/webapp-new/packer/scripts/webapp.service /etc/systemd/system/webapp.service
 
 # Set up user and permissions
 echo "+-------------------------------------------------------------+"
@@ -50,11 +46,13 @@ echo "+-------------------------------------------------------------+"
 sudo groupadd csye6225
 sudo useradd -s /usr/sbin/nologin -g csye6225 -d /opt/csye6225 -m csye6225
 
+
 echo "+-------------------------------------------------------------+"
 echo "|                    Changing Permissions                     |"
 echo "+-------------------------------------------------------------+"
 
 # Start and enable the webapp service
+sudo systemctl daemon-reload
 sudo systemctl start webapp.service
 sudo systemctl status webapp.service
 sudo systemctl enable webapp.service
