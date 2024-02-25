@@ -48,7 +48,8 @@ node -v
 npm -v
 
 # Extract the zip file
-cd /tmp && unzip -q webapp-new.zip
+sudo mkdir -p /opt/csye6225/webapp-new
+sudo unzip -q /tmp/webapp-new.zip -d /opt/csye6225/webapp-new/
 if [ $? -ne 0 ]; then
     echo "Error: Failed to unzip webapp-new.zip"
     exit 1
