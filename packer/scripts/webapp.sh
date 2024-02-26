@@ -27,7 +27,7 @@ sudo yum install unzip -y
 
 # Extract the zip file
 sudo mkdir -p /opt/csye6225/webapp-new
-sleep 10
+sleep 1m
 sudo unzip -q /tmp/webapp-new.zip -d /opt/csye6225/webapp-new/
 if [ $? -ne 0 ]; then
     echo "Error: Failed to unzip webapp-new.zip"
@@ -57,4 +57,3 @@ sudo systemctl daemon-reload
 sudo systemctl start webapp.service
 sudo systemctl status webapp.service
 sudo systemctl enable webapp.service
-sleep 30m
