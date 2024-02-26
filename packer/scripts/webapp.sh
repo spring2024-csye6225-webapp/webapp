@@ -27,7 +27,7 @@ sudo yum install unzip -y
 
 # Extract the zip file
 sudo mkdir -p /opt/csye6225/webapp-new
-sleep 10
+sleep 1m
 sudo unzip -q /tmp/webapp-new.zip -d /opt/csye6225/webapp-new/
 if [ $? -ne 0 ]; then
     echo "Error: Failed to unzip webapp-new.zip"
@@ -35,10 +35,10 @@ if [ $? -ne 0 ]; then
 fi
 
 # Change directory to the newly created folder and install dependencies
-cd /opt/csye6225/webapp-new/webapp-new && sudo npm install
+cd /opt/csye6225/webapp-new && sudo npm install
 
 # Move the webapp.service file to systemd directory
-sudo mv /opt/csye6225/webapp-new/webapp-new/packer/scripts/webapp.service /etc/systemd/system/webapp.service
+sudo mv /opt/csye6225/webapp-new/packer/scripts/webapp.service /etc/systemd/system/webapp.service
 
 # Set up user and permissions
 echo "+-------------------------------------------------------------+"
@@ -57,4 +57,3 @@ sudo systemctl daemon-reload
 sudo systemctl start webapp.service
 sudo systemctl status webapp.service
 sudo systemctl enable webapp.service
-sleep 30m
