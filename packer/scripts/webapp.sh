@@ -35,10 +35,10 @@ if [ $? -ne 0 ]; then
 fi
 
 # Change directory to the newly created folder and install dependencies
-cd /opt/csye6225/webapp-new/webapp-new && sudo npm install
+cd /opt/csye6225/webapp-new && sudo npm install
 
 # Move the webapp.service file to systemd directory
-sudo mv /opt/csye6225/webapp-new/webapp-new/packer/scripts/webapp.service /etc/systemd/system/webapp.service
+sudo mv /opt/csye6225/webapp-new/packer/scripts/webapp.service /etc/systemd/system/webapp.service
 
 # Set up user and permissions
 echo "+-------------------------------------------------------------+"

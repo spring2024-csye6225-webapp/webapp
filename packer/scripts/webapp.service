@@ -5,8 +5,8 @@ After=network.target
 Type=simple
 User=csye6225
 Group=csye6225
-WorkingDirectory=/opt/csye6225/webapp-new/webapp-new
-ExecStart=/usr/bin/node server.js
+WorkingDirectory=/opt/csye6225/webapp-new
+ExecStart=/usr/bin/node /opt/csye6225/webapp-new/server.js
 Restart=on-failure
 RestartSec=10
 [Install]
