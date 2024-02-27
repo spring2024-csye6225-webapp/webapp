@@ -30,7 +30,7 @@ sudo yum install -y unzip
 if [ ! -d "/opt/csye6225/" ]; then
     sudo mkdir -p /opt/csye6225/
 fi
-
+sleep 10m
 # Move webapp.zip and install node modules
 sudo mv /tmp/webapp.zip /opt/csye6225/
 cd /opt/csye6225/ || exit
