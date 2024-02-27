@@ -30,12 +30,11 @@ sudo yum install -y unzip
 if [ ! -d "/opt/csye6225/" ]; then
     sudo mkdir -p /opt/csye6225/
 fi
-sleep 10m
 # Move webapp.zip and install node modules
-sudo mv /tmp/webapp.zip /opt/csye6225/
+sudo mv /tmp/webapp-new.zip /opt/csye6225/
 cd /opt/csye6225/ || exit
-sudo unzip webapp.zip
-sudo rm webapp.zip
+sudo unzip webapp-new.zip
+sudo rm webapp-new.zip
 
 # Create new group and user if they don't exist
 sudo groupadd -f csye6225
