@@ -11,4 +11,4 @@ Step 7 : make sure the postgres database is setup
 Step 8 : Use pgadmin for easier access to database records
 test
 
-test
+Changes to readme test
