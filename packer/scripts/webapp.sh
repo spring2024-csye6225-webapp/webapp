@@ -46,6 +46,18 @@ echo "USER CREATED SUCCESFULLY"
 sudo chown -R csye6225:csye6225 /opt/csye6225/
 sudo chmod -R 775 /opt/csye6225/
 
+echo "after changing permissions"
+
+ls
+
+echo "Check webapp-new in the  directory"
+ls
+ls -ld /opt/csye6225
+sudo chmod -R 777 /opt/csye6225
+
+
+echo "Check if the webapp-new exists"
+ls 
 
 # Create log file
 sudo touch /var/log/csye6225.log
