@@ -66,10 +66,10 @@ sudo chmod 750 /var/log/csye6225.log
 # Install unzip
 #!/bin/bash
 # Install node modules
-cd /opt/csye6225/webapp-new 
+cd /opt/csye6225
 echo "listing contents"
 ls
-cd /opt/csye6225/webapp-new || exit
+cd /opt/csye6225|| exit
 sudo npm install
 
 # Copy systemd service file
@@ -79,7 +79,7 @@ sudo cp /tmp/webapp.service /etc/systemd/system/
 sudo chown csye6225:csye6225 /etc/systemd/system/webapp.service
 sudo chmod 750 /etc/systemd/system/webapp.service
 sudo chown -R csye6225:csye6225 /opt/csye6225/
-sudo chmod -R 750 /opt/csye6225/webapp-new
+sudo chmod -R 750 /opt/csye6225
 
 # Reload systemd
 sudo systemctl daemon-reload
