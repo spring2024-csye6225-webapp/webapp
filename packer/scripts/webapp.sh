@@ -66,8 +66,21 @@ ls
 ls -ld /opt/csye6225
 sudo chmod -R 777 /opt/csye6225
 
-echo "after changing permissions"
+# Change ownership of /opt/csye6225/
+sudo chown -R csye6225:csye6225 /opt/csye6225/
+sudo chmod -R 775 /opt/csye6225/
 
+
+# Create log file
+sudo touch /var/log/csye6225.log
+sudo chown csye6225:csye6225 /var/log/csye6225.log
+sudo chmod 750 /var/log/csye6225.log
+
+# Install unzip
+#!/bin/bash
+# Install node modules
+cd /opt/csye6225/webapp-new 
+echo "listing contents"
 ls
 
 echo "Check webapp-new in the  directory"
