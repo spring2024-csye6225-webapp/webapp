@@ -1,5 +1,4 @@
 #!/bin/bash
-
 echo "sudo yum update -y"
 
 sudo yum install -y postgresql-server
@@ -24,95 +23,61 @@ node -v
 npm -v
 
 
-echo "+-------------------------------------------------------------+"
-echo "|                    UNZIP WEBAPP                             |"
-echo "+-------------------------------------------------------------+"
+# Install unzip
 sudo yum install -y unzip
 
+# Check if the directory /opt/csye6225/ exists, if not, create it
+if [ ! -d "/opt/csye6225/" ]; then
+    sudo mkdir -p /opt/csye6225/
+fi
 
-echo "existing files"
-cd /tmp
+# Move webapp.zip and install node modules
+sudo mv /tmp/webapp.zip /opt/csye6225/
+cd /opt/csye6225/ || exit
+sudo unzip webapp.zip
+sudo rm webapp.zip
 
-sleep 1m
-echo "Unzip the zip folder"
-sudo unzip -o webapp-new.zip
-
-
-echo "zipped"
-ls 
-
-echo "Copy webapp-new.zip to user home directory"
-sudo cp -r webapp-new /opt/csye6225
-sudo cp -r webapp.service /opt/csye6225
-cd /opt/csye6225
-
-echo "logging files here"
-ls
-sleep 1m
-
-
-echo "logging files before changing permissions"
-ls 
-
-
-echo "+-------------------------------------------------------------+"
-echo "|                    Setup csye6225 group                     |"
-echo "+-------------------------------------------------------------+"
-sudo groupadd csye6225
+# Create new group and user if they don't exist
+sudo groupadd -f csye6225
 sudo useradd -s /usr/sbin/nologin -g csye6225 -d /opt/csye6225 -m csye6225
+echo "USER CREATED SUCCESFULLY"
 
-echo "after changing permissions"
+# Change ownership of /opt/csye6225/
+sudo chown -R csye6225:csye6225 /opt/csye6225/
+sudo chmod -R 775 /opt/csye6225/
 
+
+# Create log file
+sudo touch /var/log/csye6225.log
+sudo chown csye6225:csye6225 /var/log/csye6225.log
+sudo chmod 750 /var/log/csye6225.log
+
+# Install unzip
+#!/bin/bash
+# Install node modules
+cd /opt/csye6225/webapp-new 
+echo "listing contents"
 ls
-
-echo "Check webapp-new in the  directory"
-ls
-ls -ld /opt/csye6225
-sudo chmod -R 777 /opt/csye6225
-
-
-echo "Check if the webapp-new exists"
-ls 
-
-echo "+-------------------------------------------------------------+"
-echo "|                    Install Node Modules                     |"
-echo "+-------------------------------------------------------------+"
-echo "install node modules"
+cd /opt/csye6225/webapp-new || exit
 sudo npm install
 
-echo "+-------------------------------------------------------------+"
-echo "|                    Setup webapp.service                     |"
-echo "+-------------------------------------------------------------+"
-echo "Copy webapp.service to /lib/systemd/system"
-echo "logging current files strcuture" 
-ls
-echo "copy"
+# Copy systemd service file
+sudo cp /tmp/webapp.service /etc/systemd/system/
 
-echo "node location"
-which node
-
-sudo cp webapp.service /lib/systemd/system
-
-echo "+-------------------------------------------------------------+"
-echo "|                    Setup new user permissions               |"
-echo "+-------------------------------------------------------------+"
-echo "Get the home directory of the user"
-echo ~csye6225
-echo "Display permissions of user directory"
-ls -la /opt/csye6225
-
-echo "Change permissions of webapp-new"
+# Final permission changes
+sudo chown csye6225:csye6225 /etc/systemd/system/webapp.service
+sudo chmod 750 /etc/systemd/system/webapp.service
 sudo chown -R csye6225:csye6225 /opt/csye6225/
-sudo chmod -R 777 /opt/csye6225/
+sudo chmod -R 750 /opt/csye6225/webapp-new
 
-echo "Display permissions of user directory after changes"
-ls -la /opt/csye6225
+# Reload systemd
+sudo systemctl daemon-reload
 
-echo "+-------------------------------------------------------------+"
-echo "|                    Setup Systemd                            |"
-echo "+-------------------------------------------------------------+"
+# Enable and start the service
+sudo systemctl enable webapp
+sudo systemctl start webapp
+sudo systemctl status webapp
 
-
-sudo systemctl restart webapp.service
-sudo systemctl status webapp.service
-sudo systemctl enable webapp.service
+# Install rsyslog for audit logs
+sudo yum install -y rsyslog
+sudo systemctl daemon-reload
