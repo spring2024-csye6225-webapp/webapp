@@ -10,14 +10,7 @@ packer {
 source "googlecompute" "example" {
   project_id              = var.project_id
   source_image_family     = "centos-stream-8"
-  zone                    = "us-central1-a"
-  disk_size               = "20"
-  disk_type               = "pd-standard"
-  image_name              = "custom-image-{{timestamp}}"
-  image_description       = "Custom Image using CentOS as source image"
-  image_family            = "app-custom-image"
-  image_storage_locations = ["us"]
-  ssh_username            = "packer"
+
 }
 
 build {
@@ -103,7 +96,8 @@ variable "script_path" {
 }
 
 variable "source_image" {
-  type    = number
+  type    = string
+  default = "centos-8-stream"
 }
 
 variable "image_name" {
