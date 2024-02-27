@@ -2,7 +2,6 @@
 
 echo "sudo yum update -y"
 
-# Install PostgreSQL and set it up
 sudo yum install -y postgresql-server
 sudo postgresql-setup initdb
 sudo systemctl enable postgresql
@@ -11,53 +10,109 @@ sudo -u postgres psql -U postgres -c "CREATE USER abhaydeshpande WITH PASSWORD '
 sudo -u postgres psql -U postgres -c "CREATE DATABASE cloudusers;"
 sudo -u postgres psql -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE cloudusers to abhaydeshpande;"
 
-# Update PostgreSQL configuration to use password authentication
+
 sudo sed -i 's/host    all             all             127.0.0.1\/32            ident/host    all             all             127.0.0.1\/32            password/g' /var/lib/pgsql/data/pg_hba.conf
+
 sudo sed -i 's/host    all             all             ::1\/128                 ident/host    all             all             ::1\/128                 password/g' /var/lib/pgsql/data/pg_hba.conf
 
-# Install Node.js
-sudo yum install -y gcc-c++ make
-curl -sL https://rpm.nodesource.com/setup_16.x | sudo -E bash -
+echo "Node.js and npm Installation"
+curl -fsSL https://rpm.nodesource.com/setup_16.x | sudo bash -
 sudo yum install -y nodejs
+
+echo "Node.js and npm Versions"
 node -v
+npm -v
 
-# Check the contents of /tmp
-ls -la /tmp
-sudo yum install unzip -y
 
-# Extract the zip file
-sudo mkdir -p /opt/csye6225/webapp-new
+echo "+-------------------------------------------------------------+"
+echo "|                    UNZIP WEBAPP                             |"
+echo "+-------------------------------------------------------------+"
+sudo yum install -y unzip
+
+
+echo "existing files"
+cd /tmp
+
 sleep 1m
-sudo unzip -q /tmp/webapp-new.zip -d /opt/csye6225/webapp-new/
-if [ $? -ne 0 ]; then
-    echo "Error: Failed to unzip webapp-new.zip"
-    exit 1
-fi
+echo "Unzip the zip folder"
+sudo unzip -o webapp-new.zip
 
-# Change directory to the newly created folder and install dependencies
-sudo cd /opt
+
+echo "zipped"
+ls 
+
+echo "Copy webapp-new.zip to user home directory"
+sudo cp -r webapp-new /opt/csye6225
+sudo cp -r webapp.service /opt/csye6225
+cd /opt/csye6225
+
+echo "logging files here"
 ls
-sudo cd /csye6225
-ls
-sudo cd webapp-new
+sleep 1m
 
-# Move the webapp.service file to systemd directory
-sudo mv /packer/scripts/webapp.service /etc/systemd/system/webapp.service
 
-# Set up user and permissions
+echo "logging files before changing permissions"
+ls 
+
+
 echo "+-------------------------------------------------------------+"
 echo "|                    Setup csye6225 group                     |"
 echo "+-------------------------------------------------------------+"
 sudo groupadd csye6225
 sudo useradd -s /usr/sbin/nologin -g csye6225 -d /opt/csye6225 -m csye6225
 
+echo "after changing permissions"
+
+ls
+
+echo "Check webapp-new in the  directory"
+ls
+ls -ld /opt/csye6225
+sudo chmod -R 777 /opt/csye6225
+
+
+echo "Check if the webapp-new exists"
+ls 
 
 echo "+-------------------------------------------------------------+"
-echo "|                    Changing Permissions                     |"
+echo "|                    Install Node Modules                     |"
+echo "+-------------------------------------------------------------+"
+echo "install node modules"
+sudo npm install
+
+echo "+-------------------------------------------------------------+"
+echo "|                    Setup webapp.service                     |"
+echo "+-------------------------------------------------------------+"
+echo "Copy webapp.service to /lib/systemd/system"
+echo "logging current files strcuture" 
+ls
+echo "copy"
+
+echo "node location"
+which node
+
+sudo cp webapp.service /lib/systemd/system
+
+echo "+-------------------------------------------------------------+"
+echo "|                    Setup new user permissions               |"
+echo "+-------------------------------------------------------------+"
+echo "Get the home directory of the user"
+echo ~csye6225
+echo "Display permissions of user directory"
+ls -la /opt/csye6225
+
+echo "Change permissions of webapp-new"
+sudo chown -R csye6225:csye6225 /opt/csye6225/
+sudo chmod -R 777 /opt/csye6225/
+
+echo "Display permissions of user directory after changes"
+ls -la /opt/csye6225
+
+echo "+-------------------------------------------------------------+"
+echo "|                    Setup Systemd                            |"
 echo "+-------------------------------------------------------------+"
 
-# Start and enable the webapp service
-sudo systemctl daemon-reload
-sudo systemctl start webapp.service
+
+sudo systemctl restart webapp.service
 sudo systemctl status webapp.service
 sudo systemctl enable webapp.service
