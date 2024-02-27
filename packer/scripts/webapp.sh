@@ -111,7 +111,7 @@ sudo chmod 750 /var/log/csye6225.log
 # Install unzip
 #!/bin/bash
 # Install node modules
-cd /opt/csye6225/webapp-new 
+cd /opt/csye6225
 echo "listing contents"
 ls
 
