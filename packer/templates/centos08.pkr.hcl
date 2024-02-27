@@ -8,7 +8,6 @@ packer {
 }
 
 source "googlecompute" "example" {
-  project_id              = var.project_id
   source_image_family     = "centos-stream-8"
   zone                    = "us-central1-a"
   disk_size               = "20"
