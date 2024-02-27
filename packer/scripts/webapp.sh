@@ -37,6 +37,7 @@ sudo -u postgres psql -U postgres -c "CREATE DATABASE cloudusers;"
 sudo -u postgres psql -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE cloudusers to abhaydeshpande;"
 
 sudo sed -i 's/host    all             all             127.0.0.1\/32            ident/host    all             all             127.0.0.1\/32            password/g' /var/lib/pgsql/data/pg_hba.conf
+
 sudo sed -i 's/host    all             all             ::1\/128                 ident/host    all             all             ::1\/128                 password/g' /var/lib/pgsql/data/pg_hba.conf
 
 echo "Node.js and npm Installation"
@@ -47,14 +48,18 @@ echo "Node.js and npm Versions"
 node -v
 npm -v
 
-# Extract the zip file
-sudo mkdir -p /opt/csye6225/webapp-new
+echo "+-------------------------------------------------------------+"
+echo "|                    UNZIP WEBAPP                             |"
+echo "+-------------------------------------------------------------+"
+sudo yum install -y unzip
+
+
+echo "existing files"
+cd /tmp
+
 sleep 1m
-sudo unzip -q /tmp/webapp-new.zip -d /opt/csye6225/webapp-new/
-if [ $? -ne 0 ]; then
-    echo "Error: Failed to unzip webapp-new.zip"
-    exit 1
-fi
+echo "Unzip the zip folder"
+sudo unzip -o webapp-new.zip
 
 # Install unzip
 sudo yum install -y unzip
@@ -87,6 +92,18 @@ ls
 ls -ld /opt/csye6225
 sudo chmod -R 777 /opt/csye6225
 
+echo "after changing permissions"
+
+ls
+
+echo "Check webapp-new in the  directory"
+ls
+ls -ld /opt/csye6225
+sudo chmod -R 777 /opt/csye6225
+
+
+echo "Check if the webapp-new exists"
+ls 
 
 echo "Check if the webapp-new exists"
 ls 
