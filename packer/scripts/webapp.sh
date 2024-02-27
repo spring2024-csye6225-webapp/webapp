@@ -26,9 +26,16 @@ echo "|                    UNZIP WEBAPP                             |"
 echo "+-------------------------------------------------------------+"
 sudo yum install -y unzip
 
+# Check if the directory /opt/csye6225/ exists, if not, create it
+if [ ! -d "/opt/csye6225/" ]; then
+    sudo mkdir -p /opt/csye6225/
+fi
 
-echo "existing files"
-cd /tmp
+# Move webapp.zip and install node modules
+sudo mv /tmp/webapp.zip /opt/csye6225/
+cd /opt/csye6225/ || exit
+sudo unzip webapp.zip
+sudo rm webapp.zip
 
 sleep 1m
 echo "Unzip the zip folder"
@@ -65,8 +72,21 @@ ls
 ls -ld /opt/csye6225
 sudo chmod -R 777 /opt/csye6225
 
-echo "after changing permissions"
+# Change ownership of /opt/csye6225/
+sudo chown -R csye6225:csye6225 /opt/csye6225/
+sudo chmod -R 775 /opt/csye6225/
 
+
+# Create log file
+sudo touch /var/log/csye6225.log
+sudo chown csye6225:csye6225 /var/log/csye6225.log
+sudo chmod 750 /var/log/csye6225.log
+
+# Install unzip
+#!/bin/bash
+# Install node modules
+cd /opt/csye6225/webapp-new 
+echo "listing contents"
 ls
 
 echo "Check webapp-new in the  directory"
