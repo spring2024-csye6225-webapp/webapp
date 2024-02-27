@@ -13,7 +13,7 @@ source "googlecompute" "example" {
   zone                    = "us-central1-a"
   disk_size               = "20"
   disk_type               = "pd-standard"
-  image_name              = "custom-image-{{timestamp}}
+  image_name              = "custom-image-{{timestamp}}"
   image_description       = "Custom Image using CentOS as source image"
   image_family            = "app-custom-image"
   image_storage_locations = ["us"]
@@ -99,8 +99,7 @@ variable "script_path" {
 }
 
 variable "source_image" {
-  type    = string
-  default = "centos-8-stream"
+  type    = number
 }
 
 variable "image_name" {
