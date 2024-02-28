@@ -32,13 +32,9 @@ EOF
 # sudo postgresql-setup initdb
 sudo systemctl enable postgresql
 sudo systemctl start postgresql
-sudo -u postgres psql -U postgres -c "CREATE USER abhaydeshpande WITH PASSWORD 'abhaydeshpande';"
-sudo -u postgres psql -U postgres -c "CREATE DATABASE cloudusers;"
-sudo -u postgres psql -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE cloudusers to abhaydeshpande;"
-
-sudo sed -i 's/host    all             all             127.0.0.1\/32            ident/host    all             all             127.0.0.1\/32            password/g' /var/lib/pgsql/data/pg_hba.conf
-
-sudo sed -i 's/host    all             all             ::1\/128                 ident/host    all             all             ::1\/128                 password/g' /var/lib/pgsql/data/pg_hba.conf
+# sudo -u postgres psql -U postgres -c "CREATE USER abhaydeshpande WITH PASSWORD 'abhaydeshpande';"
+# sudo -u postgres psql -U postgres -c "CREATE DATABASE cloudusers;"
+# sudo -u postgres psql -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE cloudusers to abhaydeshpande;"
 
 echo "Node.js and npm Installation"
 curl -fsSL https://rpm.nodesource.com/setup_16.x | sudo bash -
@@ -48,24 +44,6 @@ echo "Node.js and npm Versions"
 node -v
 npm -v
 
-echo "+-------------------------------------------------------------+"
-echo "|                    UNZIP WEBAPP                             |"
-echo "+-------------------------------------------------------------+"
-sudo yum install -y unzip
-
-# Check if the directory /opt/csye6225/ exists, if not, create it
-if [ ! -d "/opt/csye6225/" ]; then
-    sudo mkdir -p /opt/csye6225/
-fi
-# Move webapp.zip and install node modules
-sudo mv /tmp/webapp-new.zip /opt/csye6225/
-cd /opt/csye6225/ || exit
-sudo unzip webapp-new.zip
-sudo rm webapp-new.zip
-
-sleep 1m
-echo "Unzip the zip folder"
-sudo unzip -o webapp-new.zip
 
 # Install unzip
 sudo yum install -y unzip
@@ -79,7 +57,6 @@ sudo mv /tmp/webapp-new.zip /opt/csye6225/
 cd /opt/csye6225/ || exit
 sudo unzip webapp-new.zip
 sudo rm webapp-new.zip
-
 # Create new group and user if they don't exist
 sudo groupadd -f csye6225
 sudo useradd -s /usr/sbin/nologin -g csye6225 -d /opt/csye6225 -m csye6225
@@ -98,31 +75,6 @@ ls
 ls -ld /opt/csye6225
 sudo chmod -R 777 /opt/csye6225
 
-# Change ownership of /opt/csye6225/
-sudo chown -R csye6225:csye6225 /opt/csye6225/
-sudo chmod -R 775 /opt/csye6225/
-
-
-# Create log file
-sudo touch /var/log/csye6225.log
-sudo chown csye6225:csye6225 /var/log/csye6225.log
-sudo chmod 750 /var/log/csye6225.log
-
-# Install unzip
-#!/bin/bash
-# Install node modules
-cd /opt/csye6225
-echo "listing contents"
-ls
-
-echo "Check webapp-new in the  directory"
-ls
-ls -ld /opt/csye6225
-sudo chmod -R 777 /opt/csye6225
-
-
-echo "Check if the webapp-new exists"
-ls 
 
 echo "Check if the webapp-new exists"
 ls 
