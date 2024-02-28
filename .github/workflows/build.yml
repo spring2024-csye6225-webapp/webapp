@@ -33,6 +33,19 @@ jobs:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
+      - name: "Create env file"
+        run: |
+          touch .env
+          echo DB_DATABASE=cloudusers>> .env
+          echo DB_USER=${{ secrets.POSTGRES_USER }}>> .env
+          echo DB_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} >> .env
+          echo DB_PORT=5432 >> .env
+          echo "cat .env"
+          cat .env
+          echo "ls -a ."
+          ls -a .
+          echo "ls -a ${{ github.workspace }}"
+          ls -a ${{ github.workspace }}
       - run: echo ${{ secrets.POSTGRES_PASSWORD }}
       - run: node --version
       - run: npm --version
