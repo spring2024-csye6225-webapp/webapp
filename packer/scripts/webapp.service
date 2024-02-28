@@ -8,7 +8,6 @@ User=csye6225
 Group=csye6225
 EnvironmentFile=/opt/csye6225/.env
 WorkingDirectory=/opt/csye6225
-ExecStartPre=/bin/bash -c 'until [ -f /tmp/.env ]; do sleep 1; done'
 ExecStart=/usr/bin/node /opt/csye6225/server.js
 Restart=on-failure
 RestartSec=10
