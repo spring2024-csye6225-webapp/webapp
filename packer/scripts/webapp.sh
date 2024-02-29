@@ -46,7 +46,7 @@ ls
 echo "Check webapp-new in the  directory"
 ls
 ls -ld /opt/csye6225
-sudo chmod -R 775 /opt/csye6225
+sudo chmod -R 777 /opt/csye6225
 
 
 echo "Check if the webapp-new exists"
