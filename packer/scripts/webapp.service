@@ -1,5 +1,6 @@
 [Unit]
 Description=CSYE6225 Web Application
+ConditionPathExists=/opt/csye6225
 After=network.target
 [Service]
 Type=simple
