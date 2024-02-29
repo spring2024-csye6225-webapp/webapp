@@ -8,6 +8,7 @@ const mocha = require("mocha");
 const { before } = mocha;
 
 before(async () => {
+  console.log("process.env.DB_DATABASE", process.env.DB_DATABASE);
   await sequelize.sync();
 });
 
