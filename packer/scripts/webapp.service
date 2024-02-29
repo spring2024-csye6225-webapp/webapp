@@ -1,10 +1,12 @@
 [Unit]
 Description=CSYE6225 Web Application
+ConditionPathExists=/opt/csye6225
 After=network.target
 [Service]
 Type=simple
 User=csye6225
 Group=csye6225
+EnvironmentFile=/opt/csye6225/.env
 WorkingDirectory=/opt/csye6225
 ExecStart=/usr/bin/node /opt/csye6225/server.js
 Restart=on-failure
