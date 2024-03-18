@@ -1,3 +1,4 @@
+const logger = require("../logger");
 const sequelize = require("../models");
 let databaseStatus = 503;
 const databaseConnection = async () => {
@@ -5,7 +6,9 @@ const databaseConnection = async () => {
     await sequelize.authenticate();
     await sequelize.sync();
     databaseStatus = 200;
+    logger.info("database successfully connected");
   } catch (err) {
+    logger.info("Database connection error");
     console.log("database connection error", err);
     databaseStatus = 503;
   }
