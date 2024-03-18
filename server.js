@@ -3,6 +3,7 @@ const nocache = require("nocache");
 const databaseConnection = require("./controllers/databaseHealthController");
 const bcrypt = require("bcrypt");
 const students = require("./models/Users");
+const logger = require("./logger");
 
 let app = express();
 app.use(nocache());
@@ -20,12 +21,14 @@ app.get("/healthz", async function (req, res) {
 
 app.get("/healthz/:id", function (req, res) {
   if (req.params.id) {
+    logger.info("get request not allowed with id");
     res.status(400).send("");
   }
 });
 
 app.use("/healthz", (req, res, next) => {
   if (req.method !== "GET" || req.method == "HEAD") {
+    logger.info("no methods allowed apart from GET request");
     return res.status(405).send("Method Not Allowed");
   } else {
     next();
@@ -71,12 +74,14 @@ app.post("/v1/user", async function (req, res) {
             attributes: { exclude: ["password"] },
           });
           if (userFind) {
+            logger.info("user created successfully");
             console.log("created successfully");
             res.status(201).send(userFind.dataValues);
           }
         });
       });
     } else {
+      logger.info("user created failed");
       res.status(400).send("");
     }
   } else {
@@ -142,6 +147,7 @@ app.put("/v1/user/self", async function (req, res) {
                     attributes: { exclude: "password" },
                   });
                   res.status(200).send(userFind.dataValues);
+                  logger.info("user updation successfull");
                 }
               }
             );
@@ -149,6 +155,7 @@ app.put("/v1/user/self", async function (req, res) {
         }
       } else {
         res.status(400).send("");
+        logger.info("user updation failed");
       }
     }
   }
@@ -177,9 +184,11 @@ app.get("/v1/user/self", async function (req, res) {
       const newDataValues = Object.assign({}, userFind.dataValues);
       delete newDataValues.password;
       res.status(200).send(newDataValues);
+      logger.info("user record fetched successfully");
     }
   } else {
     res.status(400).send("");
+    logger.info("user record fetch failed");
   }
 });
 
