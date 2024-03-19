@@ -61,6 +61,10 @@ build {
     destination = "/tmp/webapp.service"
   }
 
+  provisioner "file" {
+    source      = "packer/config.yaml"
+    destination = "/tmp/config.yaml"
+  }
 
 
   provisioner "shell" {

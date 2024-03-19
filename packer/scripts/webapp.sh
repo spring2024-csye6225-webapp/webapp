@@ -3,8 +3,6 @@ echo "sudo yum update -y"
 
 # Installing ops tools for compute instance 
 
-curl -sSO https://dl.google.com/cloudagents/add-monitoring-agent-repo.sh
-sudo bash add-monitoring-agent-repo.sh --also-install
 # sudo yum install -y stackdriver-agent
 # sudo systemctl start stackdriver-agent
 # sudo systemctl enable stackdriver-agent
@@ -26,6 +24,12 @@ echo "Node.js and npm Versions"
 node -v
 npm -v
 
+curl -sSO https://dl.google.com/cloudagents/add-monitoring-agent-repo.sh
+sudo bash add-monitoring-agent-repo.sh --also-install
+sudo mkdir -p /etc/google-cloud-ops-agent
+
+sudo mv /tmp/config.yaml /etc/google-cloud-ops-agent/config.yaml
+sudo systemctl restart google-cloud-ops-agent
 
 # Install unzip
 sudo yum install -y unzip
