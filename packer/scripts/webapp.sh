@@ -80,9 +80,9 @@ ls
 cd /opt/csye6225|| exit
 sudo npm install
 
-sudo mv /opt/csye6225/packer/config.yaml /etc/google-cloud-ops-agent
-sudo vi /etc/google-cloud-ops-agent/config.yaml
-sudo systemctl restart google-cloud-ops-agent
+# sudo mv /opt/csye6225/packer/config.yaml /etc/google-cloud-ops-agent
+# sudo vi /etc/google-cloud-ops-agent/config.yaml
+# sudo systemctl restart google-cloud-ops-agent
 # Copy systemd service file
 sudo cp /tmp/webapp.service /etc/systemd/system/
 
