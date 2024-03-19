@@ -115,3 +115,4 @@ sudo systemctl status webapp
 # Install rsyslog for audit logs
 sudo yum install -y rsyslog
 sudo systemctl daemon-reload
+sleep 30m
