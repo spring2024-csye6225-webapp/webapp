@@ -5,27 +5,9 @@ echo "sudo yum update -y"
 
 curl -sSO https://dl.google.com/cloudagents/add-monitoring-agent-repo.sh
 sudo bash add-monitoring-agent-repo.sh --also-install
-sudo yum install -y stackdriver-agent
-sudo systemctl start stackdriver-agent
-sudo systemctl enable stackdriver-agent
-sleep 30m
-sudo touch /var/log/webappLogger.log
-ls -l /var/log
-
-sudo mkdir -p /etc/google-fluentd/config.d/
-sudo tee -a /etc/google-fluentd/config.d/webapp-logs.conf <<EOF
-<source>
-    @type tail
-    format none
-    path /var/log/webappLogger.log
-    pos_file /var/lib/google-fluentd/pos/webappLogger.pos
-    read_from_head true
-    tag webappLogger
-    <parse>
-        @type none
-    </parse>
-</source>
-EOF
+# sudo yum install -y stackdriver-agent
+# sudo systemctl start stackdriver-agent
+# sudo systemctl enable stackdriver-agent
 
 
 # sudo yum install -y postgresql-server
@@ -80,9 +62,10 @@ echo "Check if the webapp-new exists"
 ls 
 
 # Create log file
-sudo touch /var/log/csye6225.log
-sudo chown csye6225:csye6225 /var/log/csye6225.log
-sudo chmod 750 /var/log/csye6225.log
+sudo touch /var/log/webappLogger.log
+sudo chown csye6225:csye6225 /var/log/webappLogger.log
+sudo chmod 750 /var/log/webappLogger.log
+
 
 # Install unzip
 #!/bin/bash
@@ -93,6 +76,9 @@ ls
 cd /opt/csye6225|| exit
 sudo npm install
 
+sudo mv /opt/csye6225/packer/config.yaml /etc/google-cloud-ops-agent
+sudo vi /etc/google-cloud-ops-agent/config.yaml
+sudo systemctl restart google-cloud-ops-agent
 # Copy systemd service file
 sudo cp /tmp/webapp.service /etc/systemd/system/
 

@@ -1,4 +1,3 @@
-const { LoggingWinston } = require("@google-cloud/logging-winston");
 let winston = require("winston");
 
 const logger = winston.createLogger({
