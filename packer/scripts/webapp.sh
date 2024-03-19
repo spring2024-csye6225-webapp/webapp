@@ -12,7 +12,7 @@ sudo systemctl enable stackdriver-agent
 sudo touch /var/log/webappLogger.log
 ls -l /var/log
 
-
+sudo mkdir -p /etc/google-fluentd/config.d/
 sudo tee -a /etc/google-fluentd/config.d/webapp-logs.conf <<EOF
 <source>
     @type tail 
