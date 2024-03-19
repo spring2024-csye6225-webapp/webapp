@@ -8,7 +8,7 @@ sudo bash add-monitoring-agent-repo.sh --also-install
 sudo yum install -y stackdriver-agent
 sudo systemctl start stackdriver-agent
 sudo systemctl enable stackdriver-agent
-
+sleep 30m
 sudo touch /var/log/webappLogger.log
 ls -l /var/log
 
