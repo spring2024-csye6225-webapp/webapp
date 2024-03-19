@@ -12,20 +12,20 @@ sudo systemctl enable stackdriver-agent
 sudo touch /var/log/webappLogger.log
 ls -l /var/log
 
-sudo mkdir -p /etc/google-fluentd/config.d/
-sudo tee -a /etc/google-fluentd/config.d/webapp-logs.conf <<EOF
-<source>
-    @type tail 
-    format none
-    path /var/log/webappLogger.log
-    pos_file /var/lib/google-fluentd/pos/webappLogger.pos
-    read_from_head true
-    tag webappLogger
-    <parse>
-        @type none
-    </parse>
-</source>
-EOF
+# sudo mkdir -p /etc/google-fluentd/config.d/
+# sudo tee -a /etc/google-fluentd/config.d/webapp-logs.conf <<EOF
+# <source>
+#     @type tail 
+#     format none
+#     path /var/log/webappLogger.log
+#     pos_file /var/lib/google-fluentd/pos/webappLogger.pos
+#     read_from_head true
+#     tag webappLogger
+#     <parse>
+#         @type none
+#     </parse>
+# </source>
+# EOF
 
 
 # sudo yum install -y postgresql-server
