@@ -1,9 +1,14 @@
 let winston = require("winston");
 
 const logger = winston.createLogger({
-  format: winston.format.json(),
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.json()
+  ),
   transports: [
-    new winston.transports.File({ filename: "/var/log/webappLogger.log" }),
+    new winston.transports.File({
+      filename: "./log/webapp/webapp.log",
+    }),
     // new LoggingWinston({
     //   projectId: "velvety-ground-414100",
     //   keyFilename: "",
