@@ -6,9 +6,9 @@ const databaseConnection = async () => {
     await sequelize.authenticate();
     await sequelize.sync();
     databaseStatus = 200;
-    logger.info("database successfully connected");
+    logger.info("database successfully connected", { severity: "info" });
   } catch (err) {
-    logger.info("Database connection error");
+    logger.info("Database connection error", { severity: "error" });
     console.log("database connection error", err);
     databaseStatus = 503;
   }

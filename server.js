@@ -21,14 +21,16 @@ app.get("/healthz", async function (req, res) {
 
 app.get("/healthz/:id", function (req, res) {
   if (req.params.id) {
-    logger.info("get request not allowed with id");
+    logger.info("get request not allowed with id", { severity: "error" });
     res.status(400).send("");
   }
 });
 
 app.use("/healthz", (req, res, next) => {
   if (req.method !== "GET" || req.method == "HEAD") {
-    logger.info("no methods allowed apart from GET request");
+    logger.info("no methods allowed apart from GET request", {
+      severity: "error",
+    });
     return res.status(405).send("Method Not Allowed");
   } else {
     next();
@@ -74,14 +76,14 @@ app.post("/v1/user", async function (req, res) {
             attributes: { exclude: ["password"] },
           });
           if (userFind) {
-            logger.info("user created successfully");
+            logger.info("user created successfully", { severity: "info" });
             console.log("created successfully");
             res.status(201).send(userFind.dataValues);
           }
         });
       });
     } else {
-      logger.info("user created failed");
+      logger.info("user created failed", { severity: "error" });
       res.status(400).send("");
     }
   } else {
@@ -147,7 +149,9 @@ app.put("/v1/user/self", async function (req, res) {
                     attributes: { exclude: "password" },
                   });
                   res.status(200).send(userFind.dataValues);
-                  logger.info("user updation successfull");
+                  logger.info("user updation successfull", {
+                    severity: "info",
+                  });
                 }
               }
             );
@@ -155,7 +159,7 @@ app.put("/v1/user/self", async function (req, res) {
         }
       } else {
         res.status(400).send("");
-        logger.info("user updation failed");
+        logger.info("user updation failed", { severity: "error" });
       }
     }
   }
@@ -184,11 +188,11 @@ app.get("/v1/user/self", async function (req, res) {
       const newDataValues = Object.assign({}, userFind.dataValues);
       delete newDataValues.password;
       res.status(200).send(newDataValues);
-      logger.info("user record fetched successfully");
+      logger.info("user record fetched successfully", { severity: "info" });
     }
   } else {
     res.status(400).send("");
-    logger.info("user record fetch failed");
+    logger.info("user record fetch failed", { severity: "error" });
   }
 });
 
