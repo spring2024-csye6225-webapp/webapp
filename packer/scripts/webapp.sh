@@ -65,10 +65,17 @@ sudo chmod -R 777 /opt/csye6225
 echo "Check if the webapp-new exists"
 ls 
 
+echo "creating /var/log/webapp  directory"
+sudo mkdir -p /var/log/webapp
+ 
+sudo chown -R csye6225:csye6225 /var/log/webapp
+sudo chmod -R 775 /var/log/webapp
+
+cd /var/log/webapp
 # Create log file
-sudo touch /var/log/webappLogger.log
-sudo chown csye6225:csye6225 /var/log/webappLogger.log
-sudo chmod 750 /var/log/webappLogger.log
+sudo touch /var/log/webapp/webappLogger.log
+sudo chown csye6225:csye6225 /var/log/webapp/webappLogger.log
+sudo chmod 750 /var/log/webapp/webappLogger.log
 
 
 # Install unzip
