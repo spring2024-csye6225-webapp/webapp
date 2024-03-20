@@ -21,7 +21,7 @@ app.get("/healthz", async function (req, res) {
 
 app.get("/healthz/:id", function (req, res) {
   if (req.params.id) {
-    logger.info("get request not allowed with id", { severity: "error" });
+    logger.warn("get request not allowed with id", { severity: "warn" });
     res.status(400).send("");
   }
 });
@@ -76,6 +76,7 @@ app.post("/v1/user", async function (req, res) {
             attributes: { exclude: ["password"] },
           });
           if (userFind) {
+            logger.debug("user creation debug", { severity: "debug" });
             logger.info("user created successfully", { severity: "info" });
             console.log("created successfully");
             res.status(201).send(userFind.dataValues);
