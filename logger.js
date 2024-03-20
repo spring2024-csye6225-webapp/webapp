@@ -7,7 +7,10 @@ const logger = winston.createLogger({
   ),
   transports: [
     new winston.transports.File({
-      filename: "./log/webapp/webappLogger.log",
+      filename:
+        process.env.NODE_ENV == "dev"
+          ? "webappLogger.log"
+          : "/var/log/webapp/webappLogger.log",
     }),
     // new LoggingWinston({
     //   projectId: "velvety-ground-414100",
