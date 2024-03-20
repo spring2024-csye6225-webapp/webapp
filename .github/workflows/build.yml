@@ -38,6 +38,6 @@ jobs:
           POSTGRES_DB: cloudusers
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-        run: POSTGRES_HOST=localhost POSTGRES_DB=cloudusers POSTGRES_USER=${{ secrets.POSTGRES_USER }} POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} npm run test
+        run: npm run test
       - name: Echo Integration tests completed
         run: echo "Integration tests completed"
