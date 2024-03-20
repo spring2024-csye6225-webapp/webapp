@@ -38,5 +38,5 @@ jobs:
       - run: npm --version
       - uses: actions/checkout@v3
       - run: npm install
-      - run: POSTGRES_HOST=localhost POSTGRES_DB=cloudusers POSTGRES_USER=${{ secrets.POSTGRES_USER }} POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} npm run test
+      - run: POSTGRES_HOST=localhost POSTGRES_DB=cloudusers POSTGRES_USER=${{ secrets.POSTGRES_USER }} POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} NODE_ENV=dev npm run test
       - run: echo "completed"
