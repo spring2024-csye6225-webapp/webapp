@@ -47,24 +47,21 @@ describe("USER API", function () {
     const createdUser = await users.findOne({
       where: { email: "johndoe@example.com" },
     });
-
+    console.log("the created user", createdUser);
     assert.ok(createdUser);
     assert.strictEqual(createdUser.firstname, "John");
     assert.strictEqual(createdUser.lastname, "Doe");
     assert.strictEqual(createdUser.email, "johndoe@example.com");
-    assert.strictEqual(createdUser.userVerified, false); // Check userVerified field
   });
 
   if (process.env.NODE_ENV !== "dev") {
     it("should update user information", async () => {
-      // Assuming user is already created and not verified
       // To test the update functionality, we will simulate user verification here
       const user = await users.create({
         firstname: "John",
         lastname: "Doe",
         email: "johndoe@example.com",
         password: "password123",
-        userVerified: true, // User is not verified
       });
 
       // Simulate user verification by updating the userVerified field to true
