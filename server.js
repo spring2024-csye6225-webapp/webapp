@@ -3,8 +3,10 @@ const nocache = require("nocache");
 const databaseConnection = require("./controllers/databaseHealthController");
 const bcrypt = require("bcrypt");
 const students = require("./models/Users");
+const UserVerification = require("./models/userVerification");
 const logger = require("./logger");
-
+const { PubSub } = require("@google-cloud/pubsub");
+const pubSubClient = new PubSub();
 let app = express();
 app.use(nocache());
 app.use(express.json());
@@ -68,7 +70,11 @@ app.post("/v1/user", async function (req, res) {
       bcrypt.genSalt(10, async (err, salt) => {
         bcrypt.hash(transformedData.password, salt, async function (err, hash) {
           hashedPassword = hash;
-          transformedData = { ...transformedData, password: hash };
+          transformedData = {
+            ...transformedData,
+            password: hash,
+            userVerified: false,
+          };
           console.log("the trans data", transformedData);
           let userRecord = await students.create(transformedData);
           let userFind = await students.findOne({
@@ -79,6 +85,22 @@ app.post("/v1/user", async function (req, res) {
             logger.debug("user creation debug", { severity: "debug" });
             logger.info("user created successfully", { severity: "info" });
             console.log("created successfully");
+
+            const topicName = "verifyUser";
+            const data = {
+              message: "user created successfully",
+              user: userFind.dataValues,
+            };
+
+            const dataBuffer = Buffer.from(JSON.stringify(data));
+            console.log("the datbuffer", dataBuffer);
+            try {
+              await pubSubClient.topic(topicName).publish(dataBuffer);
+              console.log("message published successfully");
+            } catch (error) {
+              console.error("error publishing message", error);
+            }
+
             res.status(201).send(userFind.dataValues);
           }
         });
@@ -96,59 +118,116 @@ app.post("/v1/user", async function (req, res) {
   }
 });
 
+const verifyUserStatus = async (req, res, next) => {
+  const userId = req.query.userId;
+
+  // Query the usersVerifications table based on userId
+  const verificationRecord = await UserVerification.findOne({
+    where: { uuid: userId },
+  });
+
+  if (!verificationRecord) {
+    return res.status(401).send("Unauthorized");
+  }
+
+  // Calculate time difference
+  const updatedAt = verificationRecord.updatedAt;
+  const currentTime = new Date();
+  const timeDifferenceInSeconds = Math.floor((currentTime - updatedAt) / 1000);
+
+  // Check if time difference is more than 120 seconds
+  if (timeDifferenceInSeconds > 120) {
+    return res.status(401).send("Unauthorized");
+  }
+
+  // If verification is successful, update userVerified field to true
+  await students.update(
+    { userVerified: true },
+    {
+      where: { email: verificationRecord.email },
+    }
+  );
+
+  // If verification is successful, attach verification record to request object
+  req.verificationRecord = verificationRecord;
+  next();
+};
+
+app.get("/v1/user/verifyUser", verifyUserStatus, async function (req, res) {
+  res.status(200).send("OK");
+});
+
 app.put("/v1/user/self", async function (req, res) {
   if (Object.keys(req.body).length == 0) {
     res.status(204).send("");
   } else {
-    let {
-      first_name: firstname,
-      last_name: lastname,
-      username: email,
-      password,
-    } = req.body;
-    let transformedData = {
-      firstname,
-      lastname,
-      email,
-      password,
-    };
+    const authHeaders = req.headers.authorization;
+    const userEmail = Buffer.from(authHeaders.split(" ")[1], "base64")
+      .toString("utf-8")
+      .split(":")[0];
+    const userPassword = Buffer.from(authHeaders.split(" ")[1], "base64")
+      .toString("utf-8")
+      .split(":")[1];
 
-    if (transformedData.email) {
-      res.status(400).send("");
-    } else {
-      const authHeaders = req.headers.authorization;
-      const userEmail = Buffer.from(authHeaders.split(" ")[1], "base64")
-        .toString("utf-8")
-        .split(":")[0];
-      const userPassword = Buffer.from(authHeaders.split(" ")[1], "base64")
-        .toString("utf-8")
-        .split(":")[1];
-      let userFind = await students.findOne({
-        where: { email: userEmail },
-      });
-      if (userFind) {
-        //check if the password matches
-        const result = await bcrypt.compare(
-          userPassword,
-          userFind.dataValues.password
-        );
-        if (!result) {
-          res.status(401).send("");
+    // Find the user by email
+    let userFind = await students.findOne({
+      where: { email: userEmail },
+    });
+
+    // Check if the user exists
+    if (userFind) {
+      // Check if the user is verified
+      if (!userFind.dataValues.userVerified) {
+        // If user is not verified, return unauthorized
+        return res.status(401).send("");
+      }
+
+      // Check if the password matches
+      const result = await bcrypt.compare(
+        userPassword,
+        userFind.dataValues.password
+      );
+
+      if (!result) {
+        res.status(401).send("");
+      } else {
+        let {
+          first_name: firstname,
+          last_name: lastname,
+          username: email,
+          password,
+        } = req.body;
+        let transformedData = {
+          firstname,
+          lastname,
+          email,
+          password,
+        };
+
+        if (transformedData.email) {
+          res.status(400).send("");
         } else {
+          // Hash the new password
           bcrypt.genSalt(10, async (err, salt) => {
             bcrypt.hash(
               transformedData.password,
               salt,
               async function (err, hash) {
                 transformedData.password = hash;
+
+                // Update the user record
                 const updateRecord = await students.update(transformedData, {
                   where: { email: userEmail },
                 });
+
                 if (updateRecord) {
+                  // Fetch the updated user record
                   let userFind = await students.findOne({
                     where: { email: userEmail },
                     attributes: { exclude: "password" },
                   });
+
+                  // Send the updated user record in the response
                   res.status(200).send(userFind.dataValues);
                   logger.info("user updation successfull", {
                     severity: "info",
@@ -158,10 +237,11 @@ app.put("/v1/user/self", async function (req, res) {
             );
           });
         }
-      } else {
-        res.status(400).send("");
-        logger.info("user updation failed", { severity: "error" });
       }
+    } else {
+      // If user does not exist, send bad request
+      res.status(400).send("");
+      logger.info("user updation failed", { severity: "error" });
     }
   }
 });

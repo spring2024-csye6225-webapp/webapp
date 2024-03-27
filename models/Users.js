@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("./index");
 
-const users = sequelize.define(
+const Users = sequelize.define(
   "users",
   {
     firstname: {
@@ -21,6 +21,10 @@ const users = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    userVerified: {
+      type: DataTypes.BOOLEAN, // Assuming userVerified is a boolean field
+      defaultValue: false, // Set default value to false
+    },
   },
   {
     freezeTableName: true,
@@ -29,4 +33,4 @@ const users = sequelize.define(
   }
 );
 
-module.exports = users;
+module.exports = Users;
