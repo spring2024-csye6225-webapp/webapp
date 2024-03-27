@@ -39,6 +39,7 @@ describe("USER API", function () {
       last_name: "Doe",
       username: "johndoe@example.com",
       password: "password123",
+      userVerified: false,
     });
 
     const response = await responsePromise;
