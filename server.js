@@ -266,6 +266,9 @@ app.get("/v1/user/self", async function (req, res) {
     if (!result) {
       res.status(400).send("");
     } else {
+      if (!userFind.dataValues.userVerified) {
+        return res.status(401).send("");
+      }
       const newDataValues = Object.assign({}, userFind.dataValues);
       delete newDataValues.password;
       res.status(200).send(newDataValues);
