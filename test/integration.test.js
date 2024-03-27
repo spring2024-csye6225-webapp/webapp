@@ -63,7 +63,7 @@ describe("USER API", function () {
       lastname: "Doe",
       email: "johndoe@example.com",
       password: "password123",
-      userVerified: false, // User is not verified
+      userVerified: true, // User is not verified
     });
 
     // Simulate user verification by updating the userVerified field to true
