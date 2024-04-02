@@ -127,7 +127,7 @@ const verifyUserStatus = async (req, res, next) => {
   });
 
   if (!verificationRecord) {
-    return res.status(401).send("Unauthorized");
+    return res.status(403).send("Unauthorized");
   }
 
   // Calculate time difference
@@ -137,7 +137,7 @@ const verifyUserStatus = async (req, res, next) => {
 
   // Check if time difference is more than 120 seconds
   if (timeDifferenceInSeconds > 120) {
-    return res.status(401).send("Unauthorized");
+    return res.status(403).send("Unauthorized");
   }
 
   // If verification is successful, update userVerified field to true
@@ -179,7 +179,7 @@ app.put("/v1/user/self", async function (req, res) {
       // Check if the user is verified
       if (!userFind.dataValues.userVerified) {
         // If user is not verified, return unauthorized
-        return res.status(401).send("");
+        return res.status(403).send("");
       }
 
       // Check if the password matches
@@ -267,7 +267,7 @@ app.get("/v1/user/self", async function (req, res) {
       res.status(400).send("");
     } else {
       if (!userFind.dataValues.userVerified) {
-        return res.status(401).send("");
+        return res.status(403).send("");
       }
       const newDataValues = Object.assign({}, userFind.dataValues);
       delete newDataValues.password;
