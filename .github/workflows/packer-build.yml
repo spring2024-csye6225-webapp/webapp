@@ -86,7 +86,7 @@ jobs:
 
 
 
-            gcloud compute instance-groups managed set-instance-template regional-instance-group-manager --template=projects/velvety-ground-414100/regions/us-central1/instanceTemplates/webapp-3 --region=us-central1
+            gcloud compute instance-groups managed set-instance-template regional-instance-group-manager --template=projects/velvety-ground-414100/regions/us-central1/instanceTemplates/webapp-${TIMESTAMP} --region=us-central1
 
 
-            gcloud compute instance-groups managed rolling-action start-update regional-instance-group-manager --version=template=projects/velvety-ground-414100/regions/us-central1/instanceTemplates/webapp-3 --region=us-central1
+            gcloud compute instance-groups managed rolling-action start-update regional-instance-group-manager --version=template=projects/velvety-ground-414100/regions/us-central1/instanceTemplates/webapp-${TIMESTAMP} --region=us-central1
