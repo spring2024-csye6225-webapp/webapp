@@ -38,6 +38,7 @@ jobs:
           echo "Custom Image ID: $CUSTOM_IMAGE_ID"
 
           TIMESTAMP=$(date +"%d%H%M%S")
+            gcloud config set project velvety-ground-414100
             gcloud compute instance-templates create webapp-${TIMESTAMP} \
                 --project=velvety-ground-414100 \
                 --instance-template-region=us-central1 \
