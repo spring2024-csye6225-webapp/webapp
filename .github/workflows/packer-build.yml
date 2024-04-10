@@ -33,9 +33,9 @@ jobs:
         id: packer_build
         run: |
           echo "Running Packer build"
-          PACKER_OUTPUT=$(packer build -var "project_id=${{ secrets.GCP_PROJECT_ID }}" -var "zone=${{ secrets.GCP_ZONE }}" packer/templates/centos08.pkr.hcl)
-          CUSTOM_IMAGE_ID=$(echo "$PACKER_OUTPUT" | grep -oP "custom-image-\d+")
-          echo "Custom Image ID: $CUSTOM_IMAGE_ID"
+          # PACKER_OUTPUT=$(packer build -var "project_id=${{ secrets.GCP_PROJECT_ID }}" -var "zone=${{ secrets.GCP_ZONE }}" packer/templates/centos08.pkr.hcl)
+          # CUSTOM_IMAGE_ID=$(echo "$PACKER_OUTPUT" | grep -oP "custom-image-\d+")
+          # echo "Custom Image ID: $CUSTOM_IMAGE_ID"
 
           TIMESTAMP=$(date +"%d%H%M%S")
             gcloud config set project velvety-ground-414100
@@ -46,7 +46,7 @@ jobs:
                 --region=us-central1 \
                 --network=https://www.googleapis.com/compute/v1/projects/velvety-ground-414100/global/networks/terraform-gcp-vpc-0 \
                 --subnet=https://www.googleapis.com/compute/v1/projects/velvety-ground-414100/regions/us-central1/subnetworks/webapp-subnet-0 \
-                --create-disk=image=projects/velvety-ground-414100/global/images/$CUSTOM_IMAGE_ID,boot=yes,auto-delete=yes,device-name=persistent-disk-0,size=20,type=pd-balanced,kms-key=projects/velvety-ground-414100/locations/us-central1/keyRings/terraform-key-ring-test-v10/cryptoKeys/vm-crypto-key \
+                --create-disk=image=projects/velvety-ground-414100/global/images/custom-image-1712775702,boot=yes,auto-delete=yes,device-name=persistent-disk-0,size=20,type=pd-balanced,kms-key=projects/velvety-ground-414100/locations/us-central1/keyRings/terraform-key-ring-test-v10/cryptoKeys/vm-crypto-key \
                 --tags=webapp-subnet-0 \
                 --metadata=startup-script='#!/bin/bash
                     cd /opt/csye6225
@@ -71,7 +71,7 @@ jobs:
                         fi
                     }
 
-                    append_to_env "POSTGRES_HOST" "${google_sql_database_instance.cloud_instance.ip_address.0.ip_address}"
+                    append_to_env "POSTGRES_HOST" "10.58.0.2"
                     append_to_env "POSTGRES_DB" "${{secrets.DATABASE_NAME}}"
                     append_to_env "POSTGRES_USER" "${{secrets.DATABASE_USER_NAME}}"
                     append_to_env "POSTGRES_PASSWORD" "${{secrets.RANDOM_PASSWORD}}"
