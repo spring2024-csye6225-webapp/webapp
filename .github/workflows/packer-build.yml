@@ -46,7 +46,7 @@ jobs:
                 --region=${{secrets.PROJECT_REGION}} \
                 --network=https://www.googleapis.com/compute/v1/projects/velvety-ground-414100/global/networks/terraform-gcp-vpc-0 \
                 --subnet=https://www.googleapis.com/compute/v1/projects/velvety-ground-414100/regions/us-central1/subnetworks/webapp-subnet-0 \
-                --create-disk=image=projects/velvety-ground-414100/global/images/custom-image-1712775702,boot=yes,auto-delete=yes,device-name=persistent-disk-0,size=20,type=pd-balanced,kms-key=projects/velvety-ground-414100/locations/us-central1/keyRings/terraform-key-ring-test-v${{secrets.RING_NUMBER}}/cryptoKeys/vm-crypto-key \
+                --create-disk=image=projects/velvety-ground-414100/global/images/$CUSTOM_IMAGE_ID,boot=yes,auto-delete=yes,device-name=persistent-disk-0,size=20,type=pd-balanced,kms-key=projects/velvety-ground-414100/locations/us-central1/keyRings/terraform-key-ring-test-v${{secrets.RING_NUMBER}}/cryptoKeys/vm-crypto-key \
                 --tags=webapp-subnet-0 \
                 --metadata=startup-script='#!/bin/bash
                     cd /opt/csye6225
