@@ -32,10 +32,10 @@ jobs:
       - name: Run Packer Build
         id: packer_build
         run: |
-          # echo "Running Packer build"
-          # PACKER_OUTPUT=$(packer build -var "project_id=${{ secrets.GCP_PROJECT_ID }}" -var "zone=${{ secrets.GCP_ZONE }}" packer/templates/centos08.pkr.hcl)
-          # CUSTOM_IMAGE_ID=$(echo "$PACKER_OUTPUT" | grep -oP "custom-image-\d+")
-          # echo "Custom Image ID: $CUSTOM_IMAGE_ID"
+          echo "Running Packer build"
+          PACKER_OUTPUT=$(packer build -var "project_id=${{ secrets.GCP_PROJECT_ID }}" -var "zone=${{ secrets.GCP_ZONE }}" packer/templates/centos08.pkr.hcl)
+          CUSTOM_IMAGE_ID=$(echo "$PACKER_OUTPUT" | grep -oP "custom-image-\d+")
+          echo "Custom Image ID: $CUSTOM_IMAGE_ID"
 
           TIMESTAMP=$(date +"%d%H%M%S")
             gcloud config set project ${{secrets.PROJECT_ID}}
