@@ -71,7 +71,7 @@ jobs:
                         fi
                     }
 
-                    append_to_env "POSTGRES_HOST" "${google_sql_database_instance.cloud_instance.ip_address.0.ip_address}"
+                    append_to_env "POSTGRES_HOST" "10.58.0.2"
                     append_to_env "POSTGRES_DB" "${{secrets.DATABASE_NAME}}"
                     append_to_env "POSTGRES_USER" "${{secrets.DATABASE_USER_NAME}}"
                     append_to_env "POSTGRES_PASSWORD" "${{secrets.RANDOM_PASSWORD}}"
