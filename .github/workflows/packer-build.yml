@@ -72,9 +72,9 @@ jobs:
                     }
 
                     append_to_env "POSTGRES_HOST" "${google_sql_database_instance.cloud_instance.ip_address.0.ip_address}"
-                    append_to_env "POSTGRES_DB" "${var.database_name}"
-                    append_to_env "POSTGRES_USER" "${var.database_user_name}"
-                    append_to_env "POSTGRES_PASSWORD" "${random_password.generated_password.result}"
+                    append_to_env "POSTGRES_DB" "${{secrets.DATABASE_NAME}}"
+                    append_to_env "POSTGRES_USER" "${{secrets.DATABASE_USER_NAME}}"
+                    append_to_env "POSTGRES_PASSWORD" "${{secrets.RANDOM_PASSWORD}}"
 
                     sudo systemctl daemon reload' \
                 --service-account=terraform-user@velvety-ground-414100.iam.gserviceaccount.com \
@@ -85,6 +85,4 @@ jobs:
 
             gcloud compute instance-groups managed rolling-action start-update regional-instance-group-manager --version=template=projects/velvety-ground-414100/regions/us-central1/instanceTemplates/webapp-${TIMESTAMP} --region=us-central1
 
-            gcloud compute instance-groups managed wait-until regional-instance-group-manager \
-            --stable \ 
-            --region=us-central1
+            gcloud compute instance-groups managed wait-until regional-instance-group-manager --version-target-reached --region=us-central1
