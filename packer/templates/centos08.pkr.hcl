@@ -10,7 +10,7 @@ packer {
 source "googlecompute" "example" {
   project_id              = var.project_id
   source_image_family     = "centos-stream-8"
-  zone                    = "us-central1-a"
+  zone                    = "us-east1-c"
   disk_size               = "20"
   disk_type               = "pd-standard"
   image_name              = "custom-image-{{timestamp}}"
@@ -93,7 +93,7 @@ variable "project_id" {
 
 variable "zone" {
   type    = string
-  default = "us-central1-a"
+  default = "us-east1-c"
 }
 
 

@@ -39,7 +39,7 @@ app.use("/healthz", (req, res, next) => {
   }
 });
 
-app.post("/v1/user", async function (req, res) {
+app.post("/v2/user", async function (req, res) {
   let {
     first_name: firstname,
     last_name: lastname,
@@ -153,11 +153,11 @@ const verifyUserStatus = async (req, res, next) => {
   next();
 };
 
-app.get("/v1/user/verifyUser", verifyUserStatus, async function (req, res) {
+app.get("/v2/user/verifyUser", verifyUserStatus, async function (req, res) {
   res.status(200).send("OK");
 });
 
-app.put("/v1/user/self", async function (req, res) {
+app.put("/v2/user/self", async function (req, res) {
   if (Object.keys(req.body).length == 0) {
     res.status(204).send("");
   } else {
@@ -246,7 +246,7 @@ app.put("/v1/user/self", async function (req, res) {
   }
 });
 
-app.get("/v1/user/self", async function (req, res) {
+app.get("/v2/user/self", async function (req, res) {
   const authHeaders = req.headers.authorization;
   const userEmail = Buffer.from(authHeaders.split(" ")[1], "base64")
     .toString("utf-8")
