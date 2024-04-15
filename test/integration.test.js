@@ -35,7 +35,7 @@ describe("test healthz api", () => {
 if (process.env.NODE_ENV !== "dev") {
   describe("USER API", function () {
     it("should create a new user", async function () {
-      const responsePromise = await supertest(app).post("/v1/user").send({
+      const responsePromise = await supertest(app).post("/v2/user").send({
         first_name: "John",
         last_name: "Doe",
         username: "johndoe@example.com",
@@ -71,7 +71,7 @@ if (process.env.NODE_ENV !== "dev") {
 
         // Update user information
         const response = await supertest(app)
-          .put("/v1/user/self")
+          .put("/v/user/self")
           .set(
             "Authorization",
             `Basic ${Buffer.from("johndoe@example.com:password123").toString(
